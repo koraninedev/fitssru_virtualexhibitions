@@ -144,23 +144,6 @@
             formData.append("category", dataTypeCategory);
             formData.append("status", dataTypeStatus);
 
-            /* $.ajax({
-                type: 'POST',
-                url: '../../service/pictures/create.php',
-                data: formData,
-                processData: false,
-                contentType: false,
-            }).done(function(resp) {
-                console.log(resp);
-                Swal.fire({
-                    text: 'เพิ่มข้อมูลเรียบร้อย',
-                    icon: 'success',
-                    confirmButtonText: 'ตกลง',
-                }).then((result) => {
-                    location.assign('./');
-                });
-            }) */
-
             $.ajax({
                 type: 'POST',
                 url: '../../service/pictures/create.php',
@@ -174,11 +157,10 @@
                         icon: 'success',
                         confirmButtonText: 'ตกลง',
                     }).then((result) => {
-                        location.assign('./'); // Redirect to some page after success, adjust as needed.
+                        location.assign('./');
                     });
                 },
                 error: function (xhr, status, error) {
-                    // Handle AJAX request errors here, if any
                     console.log('AJAX Error:', xhr, status, error);
                 },
             })

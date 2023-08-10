@@ -13,11 +13,6 @@ $params = array('branch_name' => $_SESSION['AD_BRANCH_NAME'], 'category' => 'pic
 $pic = $connect->prepare("SELECT * FROM blogs WHERE branch_name = :branch_name AND category = :category");
 $pic->execute($params);
 
-/** 
- * กำหนดข้อมูลสำหรับการ Response ไปยังฝั่ง Client
- * 
- * @return array 
- */
 $response = [
     'status' => true,
     'response' => [],
