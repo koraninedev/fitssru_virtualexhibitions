@@ -13,7 +13,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>จัดการสินค้า | Admin FIT SSRU</title>
+  <title>จัดการบทความ | Admin FIT SSRU</title>
   <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon.ico">
   <!-- stylesheet -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit" >
@@ -36,8 +36,8 @@
                         <div class="card">
                             <div class="card-header border-0 pt-4">
                                 <h4> 
-                                    <i class="fas fa-shopping-cart"></i> 
-                                    รายการสินค้า
+                                    <i class="fas fa-images"></i> 
+                                    รายการบทความ
                                 </h4>
                                 <a href="./" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
@@ -48,7 +48,7 @@
                                 <div class="card-body">
                                     <div class="form-row">
                                         <div class="form-group col-md-3">
-                                            <label for="cat_name">ประเภทสินค้า</label>
+                                            <label for="cat_name">ประเภทบทความ</label>
                                             <select class="custom-select mb-3" name="cat_name">
                                                 <option disabled>Select Course Types</option>
                                                 <option selected value="sClass">StoryClass</option>
