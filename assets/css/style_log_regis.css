@@ -1,0 +1,152 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0 24px;
+    background-color: #da99ff;
+    background-image: radial-gradient(at 88% 0%,hsla(327, 67%, 64%, 1) 0px, transparent 50%),
+                    radial-gradient(at 63% 46%, hsla(307, 76%, 61%, 1) 0px, transparent 50%),
+                    radial-gradient(at 95% 53%, hsla(89, 91%, 67%, 1) 0px, transparent 50%),
+                    radial-gradient(at 79% 83%, hsla(170, 86%, 65%, 1) 0px, transparent 50%),
+                    radial-gradient(at 74% 93%, hsla(71, 93%, 75%, 1) 0px, transparent 50%),
+                    radial-gradient(at 52% 13%, hsla(110, 83%, 72%, 1) 0px, transparent 50%),
+                    radial-gradient(at 30% 80%, hsla(263, 79%, 66%, 1) 0px, transparent 50%);
+                    /* linear-gradient(90deg, rgba(255,100,100,1) 0%, rgba(255,128,128,1) 45%, rgba(255,168,168,1) 100%); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Kanit', sans-serif;
+    color: #000;
+    animation: rotate 6s infinite alternate linear;
+}
+
+.login-card{
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    margin: 0 20px;
+    padding: 44px 50px 44px;
+    border-radius: 1.25rem;
+    background: #fff;
+    text-align: center;
+}
+
+.login-card > img{
+    margin: 0 0 12px;
+}
+
+.login-card > h3{
+    color: rgba(0, 0, 0, 0.38);
+    margin: 0 0 30px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.login-form{
+    width: 100%;
+    margin: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.login-form > .row{
+    align-items: center;
+}
+
+.login-form > .row > label{
+    text-align: left;
+    padding: 0 8px;
+}
+
+.login-form > .row > .col-sm-9 > input, .login-form > button{
+    width: 100%;
+    height: 50px;
+}
+
+.login-form > .row > .col-sm-9 > input {
+    border: 2px solid #ebebeb;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 0 16px;
+    border-radius: 1.25rem;
+    transition: all 0.375s;
+}
+
+.login-form > .row > .col-sm-9 > input:hover{
+    border: 2px solid #910000;
+}
+
+.login-form > button{
+    cursor: pointer;
+    width: 100%;
+    padding: 0 16px;
+    border-radius: 1.25rem;
+    background: #910000;
+    color: #f9f9f9;
+    border: 0;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: center;
+    transition: all 0.375s;
+}
+
+.login-form > button:hover{
+    background: #740101;
+}
+
+.login-form > .back > a{
+    display: inline-block;
+    color: #216ce7;
+    font-size: 0.9rem;
+    text-align: left;
+    text-decoration: none;
+    /* margin-bottom: 6px; */
+    transition: all 0.375s;
+}
+
+.login-form > .back > a:hover{
+    color: #10449A;
+}
+
+.login-form > .nohave > p > a{
+    display: inline-block;
+    color: #216ce7;
+    font-size: 0.9rem;
+    text-align: left;
+    text-decoration: none;
+    transition: all 0.375s;
+}
+
+.login-form > .nohave > a {
+    display: inline-block;
+    color: #216ce7;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.375s;
+}
+
+.login-form > .nohave > a:hover{
+    color: #10449A;
+}
+
+.login-form > .nohave > p {
+    margin-bottom: 0 !important;
+}
+
+.login-form > .nohave > p > a:hover{
+    color: #10449A;
+}
+
+@media (width >= 500px){
+    body{
+        padding: 0;
+    }
+    .login-card{
+        margin: 0;
+        width: 550px;
+    }
+}

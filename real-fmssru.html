@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT SSRU Virtual Exhibitions | นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา
+    </title>
+    <!-- CSS only -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <navbar-component :auth="auth"></navbar-component>
+
+        <header class="page-header d-flex align-items-center">
+            <div class="container">
+                <h1 class="fw-bold"> FIT SSRU Virtual Exhibitions </h1>
+                <h2 class="fw-bold">นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</h2>
+            </div>
+        </header>
+
+        <section class="container">
+            <div class="row justify-content-center">
+                <section class="col-12 col-md-8">
+                    <img src="assets/images/logo_bg.png" class="avatar" alt="">
+                    <form action="" method="get">
+                        <div class="input-group mt-5">
+                            <input type="text" name="search" v-model="search" class="form-control rounded p-2"
+                                placeholder="ค้นหาบทความ... ชื่อ, ชื่อผลงาน, การจัดการอสังหาริมทรัพย์และทรัพยากรอาคาร" aria-label="ค้นหาบทความ"
+                                aria-describedby="basic-addon1">
+                            <button type="submit" class="input-group-text btn text-danger" id="basic-addon1">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <nav class="mt-5">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-3dmodels-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-3dmodels" type="button" role="tab" aria-controls="nav-3dmodels"
+                        aria-selected="true">3D Models</button>
+                    <button class="nav-link" id="nav-picture-tab" data-bs-toggle="tab" data-bs-target="#nav-photos"
+                        type="button" role="tab" aria-controls="nav-photos" aria-selected="false">Photos</button>
+                    <button class="nav-link" id="nav-videos-tab" data-bs-toggle="tab" data-bs-target="#nav-videos"
+                        type="button" role="tab" aria-controls="nav-videos" aria-selected="false">Videos</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-3dmodels" role="tabpanel"
+                    aria-labelledby="nav-3dmodels-tab">
+                    <div class="row py-5 g-3">
+                        <section class="col-12 pb-3 text-center">
+                            <h3>ผลงาน 3D Models ล่าสุด</h3>
+                        </section>
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="treed in treeds">
+                            <treed-component :key="treed.blog_id" :treed="treed"></treed-component>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-photos" role="tabpanel" aria-labelledby="nav-picture-tab">
+                    <div class="row py-5 g-3">
+                        <section class="col-12 pb-3 text-center">
+                            <h3>ผลงานรูปภาพล่าสุด</h3>
+                        </section>
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="pic in pics">
+                            <pic-component :key="pic.blog_id" :pic="pic"></pic-component>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-videos" role="tabpanel" aria-labelledby="nav-videos-tab">
+                    <div class="row py-5 g-3">
+                        <section class="col-12 pb-3 text-center">
+                            <h3>ผลงานวิดีโอล่าสุด</h3>
+                        </section>
+                        <!-- <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="pic in pics">
+                            <pic-component :key="pic.blog_id" :pic="pic"></pic-component>
+                        </div> -->
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="video in videos">
+                            <video-component :key="video.blog_id" :video="video"></video-component>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer-component :auth="auth"></footer-component>
+
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/http-vue-loader/src/httpVueLoader.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/real-fmssru.js"></script>
+
+</body>
+
+</html>

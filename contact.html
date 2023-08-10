@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT SSRU Virtual Exhibitions | นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</title>
+    <!-- CSS only -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-all">
+    <div id="app">
+
+        <navbar-component :auth="auth"></navbar-component>
+
+        <header class="page-header d-flex align-items-center">
+            <div class="container">
+                <h1 class="fw-bold"> FIT SSRU Virtual Exhibitions </h1>
+                <h2 class="">นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</h2>
+            </div>
+        </header>
+
+        <section class="container">
+            <img src="assets/images/logo_bg.png" class="avatar" alt="">
+            <contact-component></contact-component>
+        </section>
+
+        <footer-component :auth="auth"></footer-component>
+
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/http-vue-loader/src/httpVueLoader.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/index.js"></script>
+
+</body>
+</html>

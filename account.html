@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>FIT SSRU Virtual Exhibitions | นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png" >
+
+    <!-- CSS and dependencies -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="profile">
+        <navbar-component :auth="auth" :navlight="navlight"></navbar-component>
+        <profileheader-component :auth="auth"></profileheader-component>
+        <section class="container mb-5">
+            <div class="row justify-content-center">
+                <section class="col-12 col-lg-11">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="list-group list-profile sticky-top">
+                                <a href="profile" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-user"></i> ข้อมูลส่วนตัว
+                                </a>
+                                <a href="account" class="list-group-item list-group-item-action  active">
+                                    <i class="fas fa-user-cog"></i> ตั้งค่าบัญชี
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-9">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <form class="row gy-4" @submit.prevent="changePassword" >
+                                        <p class="card-title">
+                                            ชื่อผู้ใช้งาน: <span v-text="auth.data.username"></span>
+                                        </p>
+                                        <hr>
+                                        <p class="card-title">แก้ไขรหัสผ่าน:</p>
+                                        <div class="form-group" >
+                                            <input type="password" class="form-control" 
+                                                   :class="{ 'is-invalid': $v.change.currentPassword.$error }" 
+                                                   v-model.trim="$v.change.currentPassword.$model"
+                                                   placeholder="กรอกรหัสผ่านเดิม">
+                                            <div class="invalid-feedback" v-if="!$v.change.currentPassword.required">currentPassword is required.</div>
+                                            <div class="invalid-feedback" v-if="!$v.change.currentPassword.minLength">currentPassword must have at least {{ $v.change.currentPassword.$params.minLength.min }} letters.</div>
+                                        </div>
+
+                                        <div class="form-group" >
+                                            <input type="password" class="form-control" 
+                                                   :class="{ 'is-invalid': $v.change.newPassword.$error}" 
+                                                   v-model.trim="$v.change.newPassword.$model"
+                                                   placeholder="กรอกรหัสผ่านใหม่">
+                                            <div class="invalid-feedback" v-if="!$v.change.newPassword.required">Password is required.</div>
+                                            <div class="invalid-feedback" v-if="!$v.change.newPassword.minLength">Password must have at least {{ $v.change.newPassword.$params.minLength.min }} letters.</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" 
+                                                   :class="{ 'is-invalid': $v.change.repeatPassword.$error}" 
+                                                   v-model.trim="$v.change.repeatPassword.$model"
+                                                   placeholder="พิมพ์รหัสผ่านใหม่อีกครั้ง">
+                                            <div class="invalid-feedback" v-if="!$v.change.repeatPassword.sameAsPassword">Passwords must be identical.</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">เปลี่ยนรหัสผ่าน</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section> 
+        <footer-component :auth="auth"></footer-component>      
+    </div>
+
+    <!-- JavaScript and Dependencies -->
+    <script src="node_modules/vue/dist/vue.min.js"></script> 
+    <script src="node_modules/http-vue-loader/src/httpVueLoader.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="node_modules/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="node_modules/vuelidate/dist/validators.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/account.js"></script>
+</body>
+</html>

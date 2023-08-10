@@ -1,0 +1,15 @@
+RewriteEngine on
+
+ErrorDocument 404 "<script>window.location.href='../';</script>"
+
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^([^\.]+)$ $1.html [L]
+
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^\.]+)$ $1.php [L]
+
+#RewriteRule ^blog/(.*)$ blog-detail.php?id=$1
+
+RewriteRule ^pic/(\d+)-([^/.]+)$ blog-detail?id=$1&url=$2
+RewriteRule ^3d/(\d+)-([^/.]+)$ blog-detail?id=$1&url=$2
+RewriteRule ^video/(\d+)-([^/.]+)$ blog-detail?id=$1&url=$2

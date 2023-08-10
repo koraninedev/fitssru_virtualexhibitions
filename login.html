@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>FIT SSRU Virtual Exhibitions | นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://s-courses.com/sclass2/demo/">
+    <meta property="og:title" content="Kitchen Enjoy's Blog ">
+    <meta property="og:description"
+        content="ทำอาหารเน้นแบบง่ายๆ ในสไตล์ของจอยไม่มีอะไรยุ่งยากซับซ้อน สามารถทำกินเองที่บ้านได้สบายๆ">
+    <meta property="og:image" content="http://i3.ytimg.com/vi/iXN8bjZWxv8/maxresdefault.jpg">
+
+    <!-- CSS and dependencies -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style_log_regis.css">
+    <style>
+        html,
+        body,
+        body.swal2-height-auto {
+            height: 100% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login" class="login-card">
+        <img src="assets/images/text_logo.png" class="img-fluid d-block mx-auto" style="height: 150px;">
+        <h3>กรอกข้อมูลเพื่อเข้าสู่ระบบ</h3>
+        <form class="login-form" @submit.prevent="submitLogin">
+            <div class="row">
+                <label for="username" class="col-sm-3">ชื่อผู้ใช้งาน</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="text" id="username" v-model.trim="$v.username.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.username.$error, 'is-valid': !$v.username.$invalid}"
+                        placeholder="Username" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.username.required">ต้องระบุชื่อผู้ใช้งาน</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.username.minLength">ชื่อผู้ใช้งานต้องมีอย่างน้อย
+                        {{$v.username.$params.minLength.min}} ตัวอักษร</div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="password" class="col-sm-3">รหัสผ่าน</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="password" id="password" v-model.trim="$v.password.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.password.$error, 'is-valid': !$v.password.$invalid}"
+                        placeholder="Password" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.password.required">ต้องระบุรหัสผ่าน</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.password.minLength">รหัสผ่านต้องมีอย่างน้อย
+                        {{$v.password.$params.minLength.min}} ตัวอักษร</div>
+                </div>
+            </div>
+            <div class="nohave d-flex justify-content-between">
+                <p>ไม่มีบัญชีผู้ใช้ ? <a href="register"> สร้างบัญชีใหม่ </a></p>
+                <a href="backend/login" target="_blank">สำหรับผู้จัดนิทรรศการ</a>
+            </div>
+            <div class="back d-flex justify-content-start">
+                <a style="margin-top: -15px;" href="./"> กลับหน้าหลัก </a>
+            </div>
+            <button type="submit"> เข้าสู่ระบบ</button>
+        </form>
+    </div>
+
+    <!-- JavaScript and Dependencies -->
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="node_modules/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="node_modules/vuelidate/dist/validators.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/login.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>FIT SSRU Virtual Exhibitions | นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png" >
+
+    <!-- CSS and dependencies -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="profile">
+        <navbar-component :auth="auth" :navlight="navlight"></navbar-component>
+        <profileheader-component :auth="auth"></profileheader-component>
+        <section class="container mb-5">
+            <div class="row justify-content-center">
+                <section class="col-12 col-lg-11">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="list-group list-profile sticky-top">
+                                <a href="profile" class="list-group-item list-group-item-action active">
+                                    <i class="fas fa-user"></i> ข้อมูลส่วนตัว
+                                </a>
+                                <a href="account" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-user-cog"></i> ตั้งค่าบัญชี
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <form class="row gy-4" @submit.prevent="editProfile">
+                                        <div class="col-md-6">
+                                            <label for="firstname" class="form-label">ชื่อ</label>
+                                            <input type="text" class="form-control" id="firstname" v-model="auth.data.firstname" placeholder="ชื่อจริง" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lastname" class="form-label">นามสกุล</label>
+                                            <input type="text" class="form-control" id="lastname" v-model="auth.data.lastname" placeholder="นามสกุล" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="introduce" class="form-label">แนะนำตัวเอง</label>
+                                            <input type="text" class="form-control" id="introduce" v-model="auth.data.introduce" placeholder="เขียนแนะนำตัวเองสักเล็กน้อย">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lastname" class="form-label">อีเมล</label>
+                                            <p v-text="auth.data.email"></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="phone" class="form-label">เบอร์โทรศัพท์</label>
+                                            <input type="text" class="form-control" id="phone" v-model="auth.data.phone" placeholder="เบอร์โทรศัพท์ของคุณ">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="inputAddress2" class="form-label">ที่อยู่</label>
+                                            <input type="text" class="form-control" id="inputAddress2" v-model="auth.data.address" placeholder="บ้านเลขที่ คอนโด อพาทเม้นท์ อื่นๆ">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="district" class="form-label">ตำบล</label>
+                                            <input type="text" class="form-control" v-model="auth.data.district" id="district" placeholder="ตำบล">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="amphoe" class="form-label">อำเภอ</label>
+                                            <input type="text" class="form-control" v-model="auth.data.amphoe" id="amphoe" placeholder="อำเภอ">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="province" class="form-label">จังหวัด</label>
+                                            <input type="text" class="form-control" v-model="auth.data.province" id="province" placeholder="จังหวัด">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="zipcode" class="form-label">ไปรษณีย์</label>
+                                            <input type="text" class="form-control" v-model="auth.data.zipcode" id="zipcode" placeholder="ไปรษณีย์">
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-danger text-white d-block mx-auto">บันทึกการเปลี่ยนแปลง</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section> 
+        <footer-component :auth="auth"></footer-component>    
+    </div>
+
+    <!-- JavaScript and Dependencies -->
+    <script src="node_modules/vue/dist/vue.min.js"></script> 
+    <script src="node_modules/http-vue-loader/src/httpVueLoader.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="node_modules/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="node_modules/vuelidate/dist/validators.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/profile.js">
+    </script>
+</body>
+</html>

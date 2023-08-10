@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>FIT SSRU Virtual Exhibitions | นิทรรศการเสมือนจริงสำหรับคณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฎสวนสุนันทา</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://s-courses.com/sclass2/demo/">
+    <meta property="og:title" content="Kitchen Enjoy's Blog ">
+    <meta property="og:description"
+        content="ทำอาหารเน้นแบบง่ายๆ ในสไตล์ของจอยไม่มีอะไรยุ่งยากซับซ้อน สามารถทำกินเองที่บ้านได้สบายๆ">
+    <meta property="og:image" content="http://i3.ytimg.com/vi/iXN8bjZWxv8/maxresdefault.jpg">
+
+    <!-- CSS and dependencies -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/style_log_regis.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="register" class="login-card">
+        <img src="assets/images/text_logo.png" class="img-fluid d-block mx-auto" style="height: 150px;">
+        <h3>กรอกข้อมูลเพื่อสมัครสมาชิก</h3>
+        <form class="login-form" @submit.prevent="submitRegister">
+            <div class="row">
+                <label for="firstname" class="col-sm-3">ชื่อ</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="text" id="firstname" v-model.trim="$v.auth.firstname.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.auth.firstname.$error, 'is-valid': !$v.auth.firstname.$invalid}"
+                        placeholder="Firstname" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.firstname.required">ต้องระบุชื่อจริง</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="lastname" class="col-sm-3">นามสกุล</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="text" id="lastname" v-model.trim="$v.auth.lastname.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.auth.lastname.$error, 'is-valid': !$v.auth.lastname.$invalid}"
+                        placeholder="Lastname" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.lastname.required">ต้องระบุนามสกุล</div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="email" class="col-sm-3">อีเมล</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="email" id="email" v-model.trim="$v.auth.email.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.auth.email.$error, 'is-valid': !$v.auth.email.$invalid }"
+                        placeholder="Email" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.email.required">ต้องระบุอีเมล</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.email.email">กรอกอีเมลให้ถูกต้อง</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.email.isUnique">อีเมลนี้ได้รับการลงทะเบียนแล้ว
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="username" class="col-sm-3">ชื่อผู้ใช้งาน</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="text" id="username" v-model.trim="$v.auth.username.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.auth.username.$error, 'is-valid': !$v.auth.username.$invalid}"
+                        placeholder="Username" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.username.required">ต้องระบุชื่อผู้ใช้งาน</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.username.minLength">ชื่อผู้ใช้งานต้องมีอย่างน้อย
+                        {{$v.auth.username.$params.minLength.min}} ตัวอักษร</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.username.isUnique">
+                        ชื่อผู้ใช้นี้ได้รับการลงทะเบียนแล้ว</div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="password" class="col-sm-3">รหัสผ่าน</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="password" id="password" v-model.trim="$v.auth.password.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.auth.password.$error, 'is-valid': !$v.auth.password.$invalid}"
+                        placeholder="Password" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.password.required">ต้องระบุรหัสผ่าน</div>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.password.minLength">รหัสผ่านต้องมีอย่างน้อย
+                        {{$v.auth.password.$params.minLength.min}} ตัวอักษร</div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="repeatPassword" class="col-sm-3">ยืนยันรหัสผ่าน</label>
+                <div class="col-sm-9 ps-0">
+                    <input type="password" id="repeatPassword" v-model.trim="$v.auth.repeatPassword.$model" class="form-control"
+                        :class="{ 'is-invalid': $v.auth.repeatPassword.$error, 'is-valid': !$v.auth.repeatPassword.$invalid }"
+                        placeholder="Confirm Password" required>
+                    <div class="invalid-feedback pt-1" v-if="!$v.auth.repeatPassword.sameAsPassword">
+                        รหัสผ่านต้องเหมือนกัน</div>
+                </div>
+            </div>
+            <div class="nohave d-flex justify-content-start">
+                <p> มีบัญชีผู้ใช้อยู่แล้ว ? <a href="login"> เข้าสู่ระบบ </a></p>
+            </div>
+            <div class="back d-flex justify-content-start">
+                <a style="margin-top: -15px;" href="./"> กลับหน้าหลัก </a>
+            </div>
+            <button type="submit"> สมัครสมาชิก </button>
+        </form>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- JavaScript and Dependencies -->
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="node_modules/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="node_modules/vuelidate/dist/validators.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/register.js"></script>
+</body>
+
+</html>
