@@ -26,10 +26,14 @@
   <?php
 
         $blog_id = $_GET['id'];
+
         $params = array('blog_id' => $blog_id);
-        $slectbyidPic = $connect->prepare("SELECT * FROM blogs WHERE blog_id = :blog_id");
-        $slectbyidPic->execute($params);
-        $row = $slectbyidPic->fetch(PDO::FETCH_ASSOC);
+        $selectbyidPic = $connect->prepare("SELECT * FROM blogs WHERE blog_id = :blog_id");
+        $selectbyidPic->execute($params);
+        $row = $selectbyidPic->fetch(PDO::FETCH_ASSOC);
+
+        $rowPics = $connect->prepare("SELECT * FROM pictures WHERE blog_id = :blog_id");
+        $rowPics->execute($params);
   ?>
 
 </head>
@@ -94,6 +98,13 @@
                                                 <span class="remove-image" id="remove-thumbnail" style="display: none;">X</span>
                                             </div>
                                             <div class="image-preview mt-2" id="images-preview" style="display: none;"></div>
+                                            <?php
+                                                if (!empty($rowPics)) {
+                                                    foreach ($rowPics as $rowPic) {
+                                                        echo '<img src="../../../assets/pictures/' . $_SESSION['AD_BRANCH_NAME'] . '/images/' . $rowPic['image'] . '" class="img-fluid mt-2" width="150px" style="margin-right: 5px;">';
+                                                    }
+                                                }
+                                            ?>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="url">URL สั้น</label>
