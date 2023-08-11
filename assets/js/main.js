@@ -1,4 +1,4 @@
-axios.defaults.baseURL = 'http://127.0.0.1:8080/fitssru_virtualexhibitions/service/api'
+axios.defaults.baseURL = 'http://localhost/fitssru_virtualexhibitions/service/api'
 const TOKEN = localStorage.getItem('auth_token') || false
 const AUTH_DATA = isObject(localStorage.getItem('auth_data'));
 function isObject(obj) {
