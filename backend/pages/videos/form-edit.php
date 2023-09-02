@@ -1,10 +1,4 @@
 <?php 
-    /**
-     * Page Manager
-     * 
-     * @link https://appzstory.dev
-     * @author Yothin Sapsamran (Jame AppzStory Studio)
-     */
     require_once('../authen.php'); 
 ?>
 <!DOCTYPE html>
@@ -13,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>จัดการสินค้า | Admin FIT SSRU</title>
+  <title>จัดการบทความ | Admin FIT SSRU</title>
   <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon.ico">
   <!-- stylesheet -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit" >
@@ -22,6 +16,46 @@
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.css">
   <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <?php
+
+        $blog_id = $_GET['id'];
+
+        $params = array('blog_id' => $blog_id);
+        $selectbyidPic = $connect->prepare("SELECT * FROM blogs WHERE blog_id = :blog_id");
+        $selectbyidPic->execute($params);
+        $row = $selectbyidPic->fetch(PDO::FETCH_ASSOC);
+
+        $rowVids = $connect->prepare("SELECT * FROM videos WHERE blog_id = :blog_id");
+        $rowVids->execute($params);
+  ?>
+
+  <style>
+    .image-container {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .image-with-delete {
+        position: relative;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .delete-overlay,
+    .remove-image {
+        position: absolute;
+        top: 7px;
+        right: 5px;
+        background-color: #dc3545;
+        color: white;
+        font-weight: bold;
+        padding: 5px;
+        cursor: pointer;
+        z-index: 1;
+    }
+  </style>
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -36,8 +70,8 @@
                         <div class="card">
                             <div class="card-header border-0 pt-4">
                                 <h4> 
-                                    <i class="fas fa-shopping-cart"></i> 
-                                    รายการสินค้า
+                                    <i class="fas fa-video"></i> 
+                                    แก้ไขบทความ
                                 </h4>
                                 <a href="./" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
@@ -47,47 +81,78 @@
                             <form id="formData">
                                 <div class="card-body">
                                     <div class="form-row">
-                                        <div class="form-group col-md-3">
-                                            <label for="cat_name">ประเภทสินค้า</label>
-                                            <select class="custom-select mb-3" name="cat_name">
-                                                <option disabled>Select Course Types</option>
-                                                <option selected value="sClass">StoryClass</option>
-                                                <option value="mClass">MiniCourse</option>
-                                                <option value="fClass">FreeCourse</option>
+                                        <input type="hidden" name="blog_id" value="<?php echo $_GET['id']; ?>">
+                                        <input name="branch_name" value="<?php echo $row['branch_name']?>" style="display: none;">
+                                        <div class="form-group col-md-4">
+                                            <label for="cat_name">ประเภทบทความ</label>
+                                            <select class="custom-select mb-3" disabled  id="category">
+                                                <option disabled selected data-category="<?php echo $row['category'] ?>">วิดีโอ</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-9">
-                                            <label for="p_name">ชื่อสินค้า</label>
-                                            <input type="text" class="form-control" name="p_name" id="p_name" placeholder="ชื่อสินค้า" value="sClass2 Weblog Bootsrtap5 + Vuejs CDN + PHP สอนเขียนเว็บไซต์ด้วยตัวเองตั้งแต่ 0 - 100">
+                                        <div class="form-group col-md-4">
+                                            <label for="subject">เรื่อง</label>
+                                            <input type="text" class="form-control" name="subject" id="subject" placeholder="เรื่อง" value="<?php echo $row['subject'] ?>">
                                         </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="price">ราคา / บาท</label>
-                                            <input type="text" class="form-control" name="price" id="price" placeholder="ราคา" value="3,500">
-                                        </div>
-                                        <div class="form-group col-md-9">
-                                            <label for="url">Url สินค้า</label>
-                                            <input type="text" class="form-control" name="url" id="url" placeholder="Url สินค้า" value="https://appzstory.dev/c/sclass2-weblog-vuejs-php/">
+                                        <div class="form-group col-md-4">
+                                            <label for="subtitle">คำบรรยาย</label>
+                                            <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="คำบรรยายสั้นๆ" value="<?php echo $row['subtitle'] ?>">
                                         </div>
                                         <div class="form-group col-sm-6">
-                                            <label for="customFile">รูปปก</label>
+                                            <label for="thumbnail">รูปปกบทความ</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="customFile">
-                                                <label class="custom-file-label" for="customFile">เลือกรูปภาพ</label>
+                                                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail">
+                                                <input type="hidden" name="name_thumbnail" value="<?php echo $row['image'] ?>">
+                                                <label class="custom-file-label" for="thumbnail">เลือกรูปภาพ</label>
                                             </div>
-                                            <img src="https://appzstory.dev/_nuxt/img/sclass2.b99e196.jpg" alt="Image Profile" class="img-fluid p-3">
+                                            <div class="image-preview mt-2" id="thumbnail-preview" style="display: none; position: relative;"></div>
+                                            <?php
+                                                if (!empty($row['image'])) {
+                                                    echo '<img src="../../../assets/videos/' . $_SESSION['AD_BRANCH_NAME'] . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
+                                                }
+                                            ?>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="images">วิดีโอภายในบทความ</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="videos" name="video[]" accept="video/*">
+                                                <label class="custom-file-label" for="videos">เลือกวิดีโอ</label>
+                                            </div>
+                                            <div id="videos-preview"></div>
+                                            <?php
+                                                if (!empty($rowVids)) {
+                                                    foreach ($rowVids as $rowVid) {
+                                                        echo '<div class="video-with-delete" style="position: relative; display: inline-block;">';
+                                                        echo '<video controls src="../../../assets/videos/' . $_SESSION['AD_BRANCH_NAME'] . '/videos/' . $rowVid['video'] . '" class="video-fluid mt-2" width="100%" style="margin-right: 5px;"></video>';
+                                                        echo '<input type="hidden" name="name_video" value="' . $rowVid['video'] . '">';
+                                                        echo '<span class="delete-overlay" data-video-id="' . $rowVid['id'] . '" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; color: white; font-weight: bold; padding: 5px; cursor: pointer; z-index: 1;">X</span>';
+                                                        echo '</div>';
+                                                    }
+                                                }
+                                            ?>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="url">URL สั้น</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="Url บทความเช่น arduino , ชื่อผลงานสั้นๆ" value="<?php echo $row['url'] ?>">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="url">สถานะของบทความ</label>
+                                            <?php
+                                                echo '<select class="custom-select mb-3" id="status">';
+
+                                                if ($row['blog_status'] == true) {
+                                                    echo '<option selected data-status="true">เผยแพร่</option>';
+                                                    echo '<option data-status=" ">ไม่เผยแพร่</option>';
+                                                } else if ($row['blog_status'] == ""){
+                                                    echo '<option data-status="true">เผยแพร่</option>';
+                                                    echo '<option selected data-status=" ">ไม่เผยแพร่</option>';
+                                                }
+                                                
+                                                echo '</select>';
+                                            ?>                      
                                         </div>
                                         <div class="form-group col-md-12">
-                                            <label for="detail">รายละเอียด</label>
-                                            <textarea id="detail" class="textarea" name="detail" placeholder="Place some text here">
-                                                <!-- โค้ดตรงส่วนนี้ จะต้องถูกส่งมาจาก Server เพื่อแก้ไข -->
-                                                <h2 class="font-weight-bold" style="text-align: center;">
-                                                    คอร์สเรียนออนไลน์ Vuejs CDN + PHP OOP (REST API)
-                                                </h2>
-                                                <div class="embed-responsive embed-responsive-16by9 mt-5 w-75 mx-auto"><iframe src="https://www.youtube.com/embed/C5tg_eFAX4I" class="embed-responsive-item"></iframe></div> <br> <p class="p-2 px-md-5 text-indent">
-                                                    สวัสดีครับ คอร์สนี้จะเน้นไปที่การสร้างโปรเจคตั้งแต่เริ่มต้น ในส่วนของการออกแบบหน้าเว็บไซต์จะใช้ Bootstrap5 ที่เพิ่งเปิดตัวในการออกแบบหน้าเว็บ ในส่วนของ Frontend จะใช้ Vuejs แบบ CDN ในการพัฒนาระบบ และส่วนของ Backend จะใช้ PHP OOP หรือการเขียนโปรแกรมเชิงวัตถุ ในการสร้าง REST Api ขึ้นมาใช้งาน
-                                                    </p> <section><h3 class="text-center py-5"><strong> Functional Requirement (หน้าที่หลักของระบบ) </strong></h3> <div class="row"><div class="col-md-6 align-self-center"><ul class="d-table mx-auto"><li><b>ขอบเขตส่วนของระบบหน้าบ้าน (ผู้ใช้งานทั่วไป)</b> <ul><li>สามารถดูบทความทั้งหมดได้</li> <li>สามารถเลือกดูบทความได้</li> <li>สามารถค้นหาบทความได้</li> <li>สามารถสมัครสมาชิกได้</li> <li>สามารถเข้าสู่ระบบได้</li></ul></li></ul></div> <div class="col-md-6 align-self-center"><img src="https://appzstory.dev/_nuxt/img/b150a9d.jpg" alt="" class="img-fluid rounded shadow"></div></div> <div class="row py-5"><div class="col-md-6 order-md-1 order-2 align-self-center"><img src="https://appzstory.dev/_nuxt/img/8c68e84.jpg" alt="" class="img-fluid rounded shadow"></div> <div class="col-md-6 order-md-2 order-1 align-self-center"><ul class="d-table mx-auto"><li><b>ขอบเขตส่วนของระบบหน้าบ้าน (ผู้ใช้งานที่เป็นสมาชิก)</b> <ul><li>สามารถแก้ไขข้อมูลส่วนตัวได้</li> <li>สามารถอัพโหลดรูปภาพส่วนตัวได้</li> <li>สามารถเปลี่ยนแปลงรหัสผ่านได้</li> <li>สามารถออกจากระบบได้</li> <li>สามารถแสดงความคิดเห็นหน้าบทความได้</li> <li>สามารถกดให้คะแนนบทความได้ (Star Rating)</li> <li>สามารถบันทึกบทความที่ชอบได้</li></ul></li></ul></div></div> <div class="row py-5"><div class="col-md-6 align-self-center"><ul class="d-table mx-auto"><li><b>ขอบเขตในส่วนของระบบหลังบ้าน (ผู้ดูแลระบบ)</b> <ul><li>สามารถ Login เข้าสู่ระบบได้</li> <li>สามารถแจ้งเวลาการเข้าใช้งานล่าสุด</li> <li>หน้า Dashboard สำหรับแสดงข้อมูลทั้งหมด</li> <li>แสดงรายชื่อ admin ทั้งหมด</li> <li>สามารถเพิ่ม admin คนใหม่ได้</li> <li>สามารถแก้ไขและกำหนดสิทธิ์ข้อมูลของ admin ได้</li> <li>สามารถลบข้อมูลของ admin ได้</li> <li>แสดงรายชื่อบทความทั้งหมด</li> <li>สามารถเพิ่มบทความใหม่ได้</li> <li>สามารถอัพโหลดรูปภาพหน้าปกได้</li> <li>สามารถเขียนบทความโดยใช้ WYSIWYG Editor ได้ </li> <li>สามารถแทรกรูปภาพลงในบทความได้ </li> <li>สามารถแก้ไขข้อมูลบทความได้</li> <li>สามารถกำหนดสิทธิ์ในการเผยแพร่บทความนั้นๆได้</li> <li>สามารถ logout ออกจากระบบได้</li></ul></li></ul></div> <div class="col-md-6 align-self-center"><img src="https://appzstory.dev/_nuxt/img/01f30f2.jpg" alt="" class="img-fluid rounded shadow"></div></div> <h3 class="text-center py-3"><strong> Non-functional Requirement (คุณสมบัติอื่นๆ ของระบบ) </strong></h3> <ul class="d-table mx-auto"><li>ออกแบบโครงสร้างหน้าเว็บด้วย Bootstrap5 เวอร์ชั่นใหม่ล่าสุด</li> <li>รองรับการใช้งานผ่านมือถือ Responsive Web Design</li> <li>รองรับการทำงานสำหรับเบราเซอร์เวอร์ชั่นใหม่ๆ</li> <li>ระบบหลังบ้านจะใช้ Admin Template ที่ออกแบบโครงสร้างไว้ให้</li> <li>มีการ Validate Form เพื่อตรวจสอบการนำเข้าของข้อมูล</li> <li>มีการเข้ารหัสผ่าน Password Hashed</li> <li>เขียนบทความโดยใช้ Summernote Super Simple WYSIWYG editor</li> <li>รูปแบบการเขียน Client side จะใช้ Vuejs + Axios และ PHP(สำหรับเน้น SEO)</li> <li>รูปแบบการเขียน Server side จะใช้ PHP OOP (REST API)</li> <li>เชื่อมต่อฐานข้อมูล ด้วย PHP PDO</li> <li>เชื่อมต่อ Google Analytics สำหรับเก็บสถิติผู้เข้าใช้งานในเว็บไซต์</li> <li>ตั้งค่า Meta Tag และ Debug Sharing Facebook</li></ul></section> <hr> <div class="text-center py-4"><h3 class="pb-2"><strong> Chapter1 เรียนรู้โปรแกรมต่างๆที่จำเป็นต่อการเขียนเว็บไซต์ </strong></h3> <div class="embed-responsive embed-responsive-16by9 w-75 mx-auto"><iframe src="https://www.youtube.com/embed/LwlGIT3Q3H0?rel=0&amp;enablejsapi=1&amp;showinfo=0&amp;modestbranding=1" class="embed-responsive-item"></iframe></div></div> <div class="text-center py-4"><h3 class="pb-2"><strong> Chapter2 เริ่มต้นวิเคราะห์ Project และทำเอกสาร </strong></h3> <div class="embed-responsive embed-responsive-16by9 w-75 mx-auto"><iframe src="https://www.youtube.com/embed/JceE01V0vx8?rel=0&amp;enablejsapi=1&amp;showinfo=0&amp;modestbranding=1" class="embed-responsive-item"></iframe></div></div> <h4 class="text-center py-4"></h4> 
-                                                <!-- โค้ดตรงส่วนนี้ จะต้องถูกส่งมาจาก Server เพื่อแก้ไข -->
-                                            </textarea>
+                                            <label for="detail">รายละเอียดของบทความ</label>
+                                            <textarea id="detail" class="form-control" name="detail" style="height: 300px;" placeholder="กรอกรายละเอียดของบทความ..."><?php echo $row['detail'] ?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -113,25 +178,193 @@
 
 <script>
     $(function() {
-        $('#detail').summernote({
-            height: 500,
-        });
 
         $('#formData').on('submit', function (e) {
             e.preventDefault();
+
+            const selectedCategory = $("#category option:selected");
+            const selectedStatus = $("#status option:selected");
+            const dataTypeCategory = selectedCategory.data("category");
+            const dataTypeStatus = selectedStatus.data("status");
+            const blogId = $("input[name='blog_id']").val();
+            const nameOriginalThumbnail = $("input[name='name_thumbnail']").val();
+            const nameOriginalVideo = $("input[name='name_video']").val();
+
+            const formData = new FormData($('#formData')[0]);
+            formData.append('category', dataTypeCategory);
+            formData.append('status', dataTypeStatus);
+
             $.ajax({
-                type: 'PUT',
-                url: '../../service/products/update.php',
-                data: $('#formData').serialize()
-            }).done(function(resp) {
-                Swal.fire({
-                    text: 'อัพเดทข้อมูลเรียบร้อย',
-                    icon: 'success',
-                    confirmButtonText: 'ตกลง',
-                }).then((result) => {
-                    location.assign('./');
-                });
-            })
+                type: 'POST',
+                url: '../../service/videos/update.php',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (resp) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'อัพเดทข้อมูลเรียบร้อยแล้ว',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
+                        location.assign('./');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'อัพเดทข้อมูลล้มเหลวกรุณาลองใหม่',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });/* .then((result) => {
+                        location.assign('./');
+                    }); */
+                }
+            });
+        });
+
+        $("#thumbnail").change(function() {
+            imagePreview("thumbnail");
+        });
+
+        $("#videos").change(function() {
+            videoPreview("videos");
+        });
+
+        function imagePreview(inputId) {
+            const files = $("#" + inputId)[0].files;
+            const imagePreviewContainer = $("#" + inputId + "-preview");
+            imagePreviewContainer.empty();
+
+            if (files.length > 0) {
+                imagePreviewContainer.show();
+
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i].type.startsWith("image/")) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = $("<img>").attr({
+                                "src": e.target.result,
+                                "alt": "Image Preview",
+                                "width": "150",
+                                "height": "150",
+                                "style": "margin-right: 5px;"
+                            });
+                            imagePreviewContainer.append(img);
+                        };
+                        reader.readAsDataURL(files[i]);
+                    }
+                }
+                $("#" + inputId).siblings(".remove-image").show();
+            } else {
+                imagePreviewContainer.hide();
+                $("#" + inputId).siblings(".remove-image").hide();
+            }
+
+            const label = $("#" + inputId).siblings(".custom-file-label .thumbnail");
+            if (files.length > 0) {
+                let fileNameList = "";
+                for (let i = 0; i < files.length; i++) {
+                    fileNameList += files[i].name;
+                    if (i < files.length - 1) {
+                        fileNameList += ", ";
+                    }
+                }
+                label.text(fileNameList);
+            } else {
+                label.text("เลือกรูปภาพ");
+            }
+        }
+
+        function videoPreview(inputId) {
+            const files = $("#" + inputId)[0].files;
+            const videoPreviewContainer = $("#videos-preview");
+            videoPreviewContainer.empty();
+
+            if (files.length > 0) {
+                videoPreviewContainer.show();
+
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i].type.startsWith("video/")) {
+                        const video = $("<video controls>").attr({
+                            "src": URL.createObjectURL(files[i]),
+                            "alt": "Video Preview",
+                            "width": "150",
+                            "height": "150",
+                            "style": "margin-right: 5px; margin-top: -25px;"
+                        });
+                        videoPreviewContainer.append(video);
+                    }
+                }
+            } else {
+                videoPreviewContainer.hide();
+            }
+
+            const label = $("#" + inputId).siblings(".custom-file-label");
+                if (files.length > 0) {
+                    let fileNameList = "";
+                    for (let i = 0; i < files.length; i++) {
+                        fileNameList += files[i].name;
+                        if (i < files.length - 1) {
+                            fileNameList += ", ";
+                        }
+                    }
+                    label.text(fileNameList);
+                } else {
+                    label.text("เลือกวิดีโอ");
+                }
+        }
+
+        $(".custom-file-input").each(function() {
+            const inputId = $(this).attr("id");
+            imagePreview(inputId);
+        });
+
+        if ($("#thumbnail-preview img").length > 0) {
+            $("#delete-original-image").show();
+        }
+
+        $(".delete-overlay").on("click", function() {
+            const $deleteOverlay = $(this);
+            const videoId = $deleteOverlay.data("video-id");
+            
+            Swal.fire({
+                icon: 'question',
+                title: 'คุณต้องลบวิดีโอนี้หรือไม่ ?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true,
+                focusCancel: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "../../service/videos/delete_video.php",
+                        data: { videoId: videoId },
+                        success: function(response) {
+                            $deleteOverlay.parent().remove();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ลบวิดีโอเรียบร้อยแล้ว',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาดขณะลบวิดีโอ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
 </script>

@@ -5,6 +5,7 @@
      * @link https://appzstory.dev
      * @author Yothin Sapsamran (Jame AppzStory Studio)
      */
+    
     require_once('../authen.php'); 
 ?>
 <!DOCTYPE html>
@@ -162,6 +163,7 @@
                 },
                 error: function (xhr, status, error) {
                     console.log('AJAX Error:', xhr, status, error);
+                    console.log(xhr.responseText);
                 },
             })
         });

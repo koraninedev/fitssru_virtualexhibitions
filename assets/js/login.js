@@ -5,14 +5,14 @@ new Vue({
     data() {
         return {
             /* text: 'Login Kitchen Enjoy', */
-            username: null,
+            email: null,
             password: null
         }
     },
     validations: {
-        username: {
+        email: {
             required,
-            minLength: minLength(6)
+            email
         },
         password: {
             required,
@@ -23,7 +23,7 @@ new Vue({
         submitLogin() {
             if (!this.$v.$invalid) {
                 const auth = { 
-                    username: this.username, 
+                    email: this.email, 
                     password: this.password 
                 }
                 axios({

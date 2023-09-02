@@ -97,7 +97,7 @@
                         <a href="form-edit.php?id=${item.blog_id}" type="button" class="btn btn-warning">
                             <i class="far fa-edit"></i> แก้ไข
                         </a>
-                        <button type="button" class="btn btn-danger" id="delete" data-id="${item.comment_id}">
+                        <button type="button" class="btn btn-danger" id="delete" data-id="${item.blog_id}">
                             <i class="far fa-trash-alt"></i> ลบ
                         </button>
                     </div>`
@@ -141,7 +141,7 @@
                 ],
                 initComplete: function () {
                     $(document).on('click', '#delete', function(){ 
-                        let id = $(this).data('id')
+                        let id = $(this).data('id');
                         Swal.fire({
                             text: "คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?",
                             icon: 'warning',
@@ -152,19 +152,27 @@
                             cancelButtonText: 'ยกเลิก'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $.ajax({  
-                                    type: "DELETE",  
-                                    url: "../../service/pictures/delete.php",  
-                                    data: { id: id }
-                                }).done(function() {
-                                    Swal.fire({
-                                        text: 'รายการของคุณถูกลบเรียบร้อย',
-                                        icon: 'success',
-                                        confirmButtonText: 'ตกลง',
-                                    }).then((result) => {
-                                        location.reload();
-                                    });
-                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: "../../service/pictures/delete.php",
+                                    data: { id: id },
+                                    success: function(response) {
+                                        Swal.fire({
+                                            text: 'ลบข้อมูลเรียบร้อยแล้ว',
+                                            icon: 'success',
+                                            confirmButtonText: 'ตกลง',
+                                        }).then((result) => {
+                                            location.reload();
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        Swal.fire({
+                                            text: 'ไม่สามารถลบรายการได้',
+                                            icon: 'error',
+                                            confirmButtonText: 'ตกลง',
+                                        });
+                                    }
+                                });
                             }
                         })
                     }).on('change', '.toggle-event', function(){

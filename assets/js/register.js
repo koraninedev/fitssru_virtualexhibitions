@@ -70,7 +70,12 @@ new Vue({
             },
             password: {
                 required,
-                minLength: minLength(6)
+                minLength: minLength(6),
+                containsLetterAndNumber(value) {
+                    const containsLetter = /[a-zA-Z]/.test(value);
+                    const containsNumber = /\d/.test(value);
+                    return containsLetter && containsNumber;
+                }
             },
             repeatPassword: {
                 required,

@@ -153,7 +153,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $.ajax({  
-                                    type: "DELETE",  
+                                    type: "POST",  
                                     url: "../../service/3dmodels/delete.php",  
                                     data: { id: id }
                                 }).done(function() {

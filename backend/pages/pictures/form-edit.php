@@ -36,6 +36,33 @@
         $rowPics->execute($params);
   ?>
 
+  <style>
+    .image-container {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .image-with-delete {
+        position: relative;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .delete-overlay,
+    .remove-image {
+        position: absolute;
+        top: 7px;
+        right: 5px;
+        background-color: #dc3545;
+        color: white;
+        font-weight: bold;
+        padding: 5px;
+        cursor: pointer;
+        z-index: 1;
+    }
+  </style>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -80,10 +107,10 @@
                                             <label for="thumbnail">รูปปกบทความ</label>
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail">
+                                                <input type="hidden" name="name_thumbnail" value="<?php echo $row['image'] ?>">
                                                 <label class="custom-file-label" for="thumbnail">เลือกรูปภาพ</label>
-                                                <span class="remove-image" id="remove-thumbnail" style="display: none;">X</span>
                                             </div>
-                                            <div class="image-preview mt-2" id="thumbnail-preview" style="display: none;"></div>
+                                            <div class="image-preview mt-2" id="thumbnail-preview" style="display: none; position: relative;"></div>
                                             <?php
                                                 if (!empty($row['image'])) {
                                                     echo '<img src="../../../assets/pictures/' . $_SESSION['AD_BRANCH_NAME'] . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
@@ -95,16 +122,20 @@
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="images" name="images[]" multiple>
                                                 <label class="custom-file-label" for="images">เลือกรูปภาพ</label>
-                                                <span class="remove-image" id="remove-thumbnail" style="display: none;">X</span>
                                             </div>
                                             <div class="image-preview mt-2" id="images-preview" style="display: none;"></div>
-                                            <?php
-                                                if (!empty($rowPics)) {
-                                                    foreach ($rowPics as $rowPic) {
-                                                        echo '<img src="../../../assets/pictures/' . $_SESSION['AD_BRANCH_NAME'] . '/images/' . $rowPic['image'] . '" class="img-fluid mt-2" width="150px" style="margin-right: 5px;">';
+                                            <div class="image-container" style="position: relative;">
+                                                <?php
+                                                    if (!empty($rowPics)) {
+                                                        foreach ($rowPics as $rowPic) {
+                                                            echo '<div class="image-with-delete">';
+                                                            echo '<img src="../../../assets/pictures/' . $_SESSION['AD_BRANCH_NAME'] . '/images/' . $rowPic['image'] . '" class="img-fluid mt-2" width="150px" style="margin-right: 5px;">';
+                                                            echo '<span class="delete-overlay" data-image-id="' . $rowPic['id'] . '">X</span>';
+                                                            echo '</div>';
+                                                        }
                                                     }
-                                                }
-                                            ?>
+                                                ?>
+                                            </div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="url">URL สั้น</label>
@@ -155,37 +186,47 @@
 <script>
     $(function() {
 
-        const selectedCategory = $("#category option:selected");
-        const selectedStatus = $("#status option:selected");
-        const dataTypeCategory = selectedCategory.data("category");
-        const dataTypeStatus = selectedStatus.data("status");
-
-        const formData = new FormData($('#formData')[0]);
-        formData.append("category", dataTypeCategory);
-        formData.append("status", dataTypeStatus);
-
         $('#formData').on('submit', function (e) {
             e.preventDefault();
+
+            const selectedCategory = $("#category option:selected");
+            const selectedStatus = $("#status option:selected");
+            const dataTypeCategory = selectedCategory.data("category");
+            const dataTypeStatus = selectedStatus.data("status");
+            const blogId = $("input[name='blog_id']").val();
+            const nameOriginalThumbnail = $("input[name='name_thumbnail']").val();
+
+            const formData = new FormData($('#formData')[0]);
+            formData.append('category', dataTypeCategory);
+            formData.append('status', dataTypeStatus);
+
             $.ajax({
-                type: 'PUT',
+                type: 'POST',
                 url: '../../service/pictures/update.php',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (resp) {
-                        console.log(resp);
-                        Swal.fire({
-                        text: 'อัพเดทข้อมูลเรียบร้อย',
+                    Swal.fire({
                         icon: 'success',
-                        confirmButtonText: 'ตกลง',
-                    }).then((result) => {
+                        title: 'อัพเดทข้อมูลเรียบร้อยแล้ว',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
                         location.assign('./');
                     });
                 },
                 error: function (xhr, status, error) {
-                    console.log('AJAX Error:', xhr, status, error);
-                },
-            })
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'อัพเดทข้อมูลล้มเหลวกรุณาลองใหม่',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
+                        location.assign('./');
+                    });
+                }
+            });
         });
 
         $("#thumbnail").change(function() {
@@ -220,8 +261,10 @@
                         reader.readAsDataURL(files[i]);
                     }
                 }
+                $("#" + inputId).siblings(".remove-image").show();
             } else {
                 imagePreviewContainer.hide();
+                $("#" + inputId).siblings(".remove-image").hide();
             }
 
             const label = $("#" + inputId).siblings(".custom-file-label");
@@ -238,6 +281,66 @@
                 label.text("เลือกรูปภาพ");
             }
         }
+
+        // Add event listener to the remove buttons
+        $(".remove-image").on("click", function() {
+            const inputId = $(this).siblings(".custom-file-input").attr("id");
+            $("#" + inputId).val("");
+            imagePreview(inputId);
+        });
+
+        // When the form loads, show the remove buttons for existing images
+        $(".custom-file-input").each(function() {
+            const inputId = $(this).attr("id");
+            imagePreview(inputId);
+        });
+
+        if ($("#thumbnail-preview img").length > 0) {
+            $("#delete-original-image").show();
+        }
+
+        $(".delete-overlay").on("click", function() {
+            const $deleteOverlay = $(this); // Store a reference to the clicked overlay
+            const imageId = $deleteOverlay.data("image-id");
+            
+            Swal.fire({
+                icon: 'question',
+                title: 'คุณต้องลบรูปภาพนี้หรือไม่ ?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true,
+                focusCancel: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "../../service/pictures/delete_image.php",
+                        data: { imageId: imageId },
+                        success: function(response) {
+                            $deleteOverlay.parent().remove();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ลบรูปภาพเรียบร้อยแล้ว',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาดขณะลบรูปภาพ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                }
+            });
+        });
     });
 </script>
 </body>

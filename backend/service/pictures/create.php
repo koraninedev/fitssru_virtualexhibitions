@@ -75,14 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         VALUES (:branch_name, :subject, :subtitle, :detail, :image, :url, :blog_status, :tags, :category, :created_at, :updated_at)");
 
     try {
-        /* $createPic->execute($params);
-        $blogId = $connect->lastInsertId(); */
-        $response = [
-            'status' => true,
-            'message' => "Create Success!"
-        ];
-        http_response_code(200);
-        echo json_encode($response);
+        $createPic->execute($params);
+        $blogId = $connect->lastInsertId();
     } catch (PDOException $e) {
         $response = [
             'status' => false,
@@ -94,7 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!empty($_FILES['images']['tmp_name'][0])) {
-        var_dump($_FILES['images']);
         $imagePath = BASE_PATH . 'assets/pictures/' . $branch_name . '/images/';
         $width;
         $height;
@@ -145,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                    VALUES (:image, :blog_id, :created_at)");
 
             try {
-                /* $insertImageQuery->execute($params); */
+                $insertImageQuery->execute($params);
                 $insertedImages[] = [
                     'image' => $filename,
                     'created_at' => date('Y-m-d H:i:s')
@@ -155,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'status' => false,
                     'message' => "Create Failed! " . $e->getMessage(),
                 ];
-                http_response_code(200);
+                http_response_code(400);
                 echo json_encode($response);
             }
         }
@@ -165,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         http_response_code(200);
         echo json_encode($response);
+        exit;
     } else {
         $response = [
             'status' => true,

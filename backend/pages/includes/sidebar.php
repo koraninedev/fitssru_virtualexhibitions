@@ -40,48 +40,159 @@
             <div class="image">
                 <img src="../../assets/images/<?php echo $_SESSION['AD_IMAGE'] ?>" class="img-circle elevation-2" alt="User Image">
             </div>
-            <div class="info">
-                <a href="">สาขา <?php echo $_SESSION['AD_NAME']?> </a>
-            </div>
+            <?php 
+                if ($_SESSION['AD_STATUS'] == "superadmin"){
+            ?>
+                <div class="info">
+                    <a href=""><?php echo $_SESSION['AD_NAME']?> </a>
+                </div>
+            <?php
+                } else {
+            ?>
+                <div class="info">
+                    <a href="">สาขา <?php echo $_SESSION['AD_NAME']?> </a>
+                </div>
+            <?php } ?>
         </div>
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="menu">
                 <li class="nav-item">
                     <a href="../dashboard/" class="nav-link <?php echo isActive('dashboard') ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>หน้าหลัก</p>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="../manager/" class="nav-link <?php echo isActive('manager') ?>">
+                <?php 
+                    if ($_SESSION['AD_STATUS'] == "superadmin"){
+                ?>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#manage" data-toggle="collapse" aria-current="page">
                         <i class="nav-icon fas fa-user-cog"></i>
-                        <p>ผู้ดูแลระบบ</p>
+                        <p>จัดการบัญชี</p>
+                        <i class="nav-icon fas fa-caret-down"></i>
                     </a>
-                </li> -->
-                <li class="nav-item">
-                    <a href="../3dmodels/" class="nav-link <?php echo isActive('3dmodels') ?>">
-                        <i class="nav-icon fas fa-cube"></i>
-                        <p>บทความ 3D Models</p>
-                    </a>
+                    <ul class="nav collapse nav-sidebar flex-column" id="manage" data-parent="#menu">
+                        <li class="nav-item">
+                            <a class="nav-link pl-4 <?php echo isActive('organizeies') ?>" href="../organizeies/" aria-current="page">
+                                <i class="nav-icon fas fa-sitemap"></i>
+                                <p>จัดการบัญชีผู้จัดนิทรรศการ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4 <?php echo isActive('users') ?>" href="../users/" aria-current="page">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>จัดการบัญชีผู้เข้าชม</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="../pictures/" class="nav-link <?php echo isActive('pictures') ?>">
-                        <i class="nav-icon fas fa-images"></i>
-                        <p>บทความรูปภาพ</p>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#science" data-toggle="collapse" aria-current="page">
+                        <i class="nav-icon fas fa-atom"></i>
+                        <p>วิทยาศาสตรบัณฑิต</p>
+                        <i class="nav-icon fas fa-caret-down"></i>
                     </a>
+                    <ul class="nav collapse nav-sidebar flex-column" id="science" data-parent="#menu">
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-hard-hat"></i>
+                                <p>เทคโนโลยีความปลอดภัยและอาชีวอนามัย</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-bolt"></i>
+                                <p>เทคโนโลยีไฟฟ้า</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-synagogue"></i>
+                                <p>การจัดการอสังหาริมทรัพย์และทรัพยากรอาคาร</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-pen-fancy"></i>
+                                <p>การออกแบบกราฟิกและมัลติมีเดีย</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="../videos/" class="nav-link <?php echo isActive('videos') ?>">
-                        <i class="nav-icon fas fa-video"></i>
-                        <p>บทความวิดีโอ</p>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#engineering" data-toggle="collapse" aria-current="page">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>วิศวกรรมศาสตรบัณฑิต</p>
+                        <i class="nav-icon fas fa-caret-down"></i>
                     </a>
+                    <ul class="nav collapse nav-sidebar flex-column" id="engineering" data-parent="#menu">
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-laptop"></i>
+                                <p>วิศวกรรมคอมพิวเตอร์</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-robot"></i>
+                                <p>วิศวกรรมหุ่นยนต์</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-tasks"></i>
+                                <p>การจัดการวิศวกรรม</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>">
-                        <i class="nav-icon fas fa-comments"></i>
-                        <p>ความคิดเห็นบทความ</p>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#design" data-toggle="collapse" aria-current="page">
+                        <i class="nav-icon fas fa-pencil-ruler"></i>
+                        <p>การออกแบบบัณฑิต</p>
+                        <i class="nav-icon fas fa-caret-down"></i>
                     </a>
+                    <ul class="nav collapse nav-sidebar flex-column" id="design" data-parent="#menu">
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-layer-group"></i>
+                                <p>การออกแบบนิทรรศการและแอนิเมชันสามมิติ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="#" aria-current="page">
+                                <i class="nav-icon fas fa-box-open"></i>
+                                <p>การออกแบบผลิตภัณฑ์และบรรจุภัณฑ์</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                <?php } else { ?>
+                    <li class="nav-item">
+                        <a href="../3dmodels/" class="nav-link <?php echo isActive('3dmodels') ?>">
+                            <i class="nav-icon fas fa-cube"></i>
+                            <p>บทความ 3D Models</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../pictures/" class="nav-link <?php echo isActive('pictures') ?>">
+                            <i class="nav-icon fas fa-images"></i>
+                            <p>บทความรูปภาพ</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../videos/" class="nav-link <?php echo isActive('videos') ?>">
+                            <i class="nav-icon fas fa-video"></i>
+                            <p>บทความวิดีโอ</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>">
+                            <i class="nav-icon fas fa-comments"></i>
+                            <p>ความคิดเห็นบทความ</p>
+                        </a>
+                    </li>
+                <?php } ?>
                 <li class="nav-header">ตัวเลือก</li>
                 <li class="nav-item">
                     <a href="../logout.php" id="logout" class="nav-link">
@@ -94,7 +205,7 @@
     </div>
 </aside>
 
-<<script>
+<script>
     function handleLogout() {
     Swal.fire({
       icon: 'question',
@@ -120,10 +231,9 @@
     });
   }
 
-  // Attach the event listener to the logout link
   const logoutLink = document.getElementById('logout');
   logoutLink.addEventListener('click', function(event) {
     event.preventDefault();
-    handleLogout(); // Call the function to handle the logout process
+    handleLogout();
   });
 </script>
