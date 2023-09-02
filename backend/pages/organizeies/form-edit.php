@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="../../assets/css/style.css">
 
     <?php
-
         $u_id = $_GET['id'];
 
         $params = array('u_id' => $u_id);
@@ -57,14 +56,15 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6 px-1 px-md-5">
-
+                                            <input type="hidden" name="u_id" value="<?php echo $_GET['id']; ?>">
+                                            <input type="hidden" name="branch_name" value="<?php echo $row['branch_name']; ?>">
                                             <div class="form-group">
-                                                <label for="first_name">ชื่อสาขา</label>
-                                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="ชื่อจริง" value="<?php echo $row['name'] ?>">
+                                                <label for="name">ชื่อสาขา</label>
+                                                <input type="text" class="form-control" name="name" id="name" placeholder="ชื่อจริง" value="<?php echo $row['name'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="last_name">ชื่อผู้ใช้งาน</label>
-                                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="นามสกุล" value="<?php echo $row['username'] ?>">
+                                                <label for="username">ชื่อผู้ใช้งาน</label>
+                                                <input type="text" class="form-control" name="username" id="username" placeholder="นามสกุล" value="<?php echo $row['username'] ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">แก้ไขรหัสผ่าน</label>
@@ -77,13 +77,14 @@
                                             <div class="form-group">
                                                 <label for="customFile">รูปภาพสาขา</label>
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="customFile" accept="image/*">
+                                                    <input type="file" class="custom-file-input" id="customFile" name="image" accept="image/*">
+                                                    <input type="hidden" name="name_image" value="<?php echo $row['image'] ?>">
                                                     <label class="custom-file-label" for="customFile">เลือกรูปภาพใหม่</label>
                                                 </div>
                                                 <div class="image-preview mt-2" id="customFile-preview" style="display: none; position: relative;"></div>
                                                 <?php
                                                     if (!empty($row['image'])) {
-                                                        echo '<img src="../../assets/images/'. $row['image'] .'" alt="Image Profile" class="img-fluid">';
+                                                        echo '<img src="../../../backend/assets/images/'. $row['image'] .'" alt="Image Profile" class="img-fluid" width="150px">';
                                                     }
                                                 ?>
                                             </div>
@@ -110,23 +111,38 @@
 <script src="../../assets/js/adminlte.min.js"></script>
 
 <script>
-     $(function() {
-        $('#formData').submit(function (e) {
+    $('#formData').on('submit', function (e) {
             e.preventDefault();
+
+            const formData = new FormData($('#formData')[0]);
+
             $.ajax({
-                type: 'PUT',
-                url: '../../service/manager/update.php',
-                data: $('#formData').serialize()
-            }).done(function(resp) {
-                Swal.fire({
-                    text: 'อัพเดทข้อมูลเรียบร้อย',
-                    icon: 'success',
-                    confirmButtonText: 'ตกลง',
-                }).then((result) => {
-                    location.assign('./');
-                });
-            })
-        });
+                type: 'POST',
+                url: '../../service/organizer/update.php',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (resp) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'อัพเดทข้อมูลเรียบร้อยแล้ว',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
+                        location.assign('./');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'อัพเดทข้อมูลล้มเหลวกรุณาลองใหม่',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
+                        location.assign('./');
+                    });
+                }
+            });
     });
 
     $("#customFile").change(function() {

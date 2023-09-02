@@ -37,7 +37,7 @@ require_once '../connect.php';
 
             if ($check_data->rowCount() > 0) {
                 if ($username == $user['username']) {
-                    if ($user && custom_password_verify($password, $user['password'])) {
+                    if ($user && password_verify($password, $user['password'])) {
 
                         $_SESSION['AD_ID'] = $user['u_id'];
                         $_SESSION['AD_NAME'] = $user['name'];
@@ -93,9 +93,4 @@ require_once '../connect.php';
                 'message' => 'Login Failed' . $e->getMessage()
             ]);
         }
-    }
-
-    function custom_password_verify($password, $hashedPassword) {
-        $hashedInputPassword = hash('sha256', $password);
-        return $hashedInputPassword === $hashedPassword;
     }

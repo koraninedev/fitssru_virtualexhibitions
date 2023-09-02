@@ -7,12 +7,13 @@
      */
     require_once('../authen.php'); 
 ?>
+<?php if ($_SESSION['AD_STATUS'] === 'superadmin') { ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>จัดการผู้ดูแลระบบ | Admin FIT SSRU</title>
+  <title>จัดการผู้เข้าชม | Admin FIT SSRU</title>
   <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon.ico">
   <!-- stylesheet -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit" >
@@ -20,6 +21,16 @@
   <link rel="stylesheet" href="../../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <?php
+        $u_id = $_GET['id'];
+
+        $params = array('u_id' => $u_id);
+        $selectbyidUser = $connect->prepare("SELECT * FROM users WHERE u_id = :u_id");
+        $selectbyidUser->execute($params);
+        $row = $selectbyidUser->fetch(PDO::FETCH_ASSOC);
+    ?>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -33,8 +44,8 @@
                         <div class="card shadow">
                             <div class="card-header border-0 pt-4">
                                 <h4>
-                                    <i class="fas fa-user-cog"></i> 
-                                    แก้ไขข้อมูลผู้ดูแล
+                                    <i class="fas fa-user"></i> 
+                                    แก้ไขข้อมูลผู้เข้าชม
                                 </h4>
                                 <a href="./" class="btn btn-info my-3 ">
                                     <i class="fas fa-list"></i>
@@ -45,45 +56,27 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6 px-1 px-md-5">
-
+                                            <input type="hidden" name="u_id" value="<?php echo $_GET['id']; ?>">
                                             <div class="form-group">
-                                                <label for="first_name">ชื่อจริง</label>
-                                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="ชื่อจริง" value="<?php echo $_SESSION['AD_FIRSTNAME'] ?>" required>
+                                                <label for="firstname">ชื่อจริง</label>
+                                                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="ชื่อจริง" value="<?php echo $row['firstname'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="last_name">นามสกุล</label>
-                                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="นามสกุล" value="<?php echo $_SESSION['AD_LASTNAME'] ?>" required>
+                                                <label for="lastname">นามสกุล</label>
+                                                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="นามสกุล" value="<?php echo $row['lastname'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="username">ชื่อผู้ใช้งาน</label>
-                                                <p class="bg-light p-2 shadow-sm"><?php echo $_SESSION['AD_USERNAME'] ?></p>
+                                                <label for="email">อีเมล</label>
+                                                <input type="email" class="form-control" name="email" id="email" placeholder="อีเมล" value="<?php echo $row['email'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="password">รหัสผ่าน</label>
-                                                <p class="bg-light p-2 shadow-sm">******</p>
+                                                <label for="password">แก้ไขรหัสผ่าน</label>
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="รหัสผ่าน">
                                             </div>
 
                                         </div>
-                                        <div class="col-md-6 px-1 px-md-5">
-
-                                            <div class="form-group">
-                                                <label for="permission">สิทธิ์การใช้งาน</label>
-                                                <select class="form-control" name="status" id="permission" required>
-                                                    <option value disabled >กำหนดสิทธิ์</option>
-                                                    <option value="superadmin" selected>Super Admin</option>
-                                                    <option value="admin">Admin</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="customFile">รูปโปรไฟล์</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="customFile" accept="image/*">
-                                                    <label class="custom-file-label" for="customFile">เลือกรูปภาพใหม่</label>
-                                                </div>
-                                                <img src="../../assets/images/avatar5.png" alt="Image Profile" class="img-fluid p-3">
-                                            </div>
-
+                                        <div class="col-md-6 text-center">
+                                            <img src="../../../assets/images/uploads/<?php echo $row['image'] ?>" alt="Image Profile" class="img-fluid pt-2" width="250px" height="250px">
                                         </div>
                                     </div>
                                 </div>
@@ -107,24 +100,51 @@
 
 <script>
      $(function() {
-        $('#formData').submit(function (e) {
+        $('#formData').on('submit', function (e) {
             e.preventDefault();
+
+            const formData = new FormData($('#formData')[0]);
+
             $.ajax({
-                type: 'PUT',
-                url: '../../service/manager/update.php',
-                data: $('#formData').serialize()
-            }).done(function(resp) {
-                Swal.fire({
-                    text: 'อัพเดทข้อมูลเรียบร้อย',
-                    icon: 'success',
-                    confirmButtonText: 'ตกลง',
-                }).then((result) => {
-                    location.assign('./');
-                });
-            })
+                type: 'POST',
+                url: '../../service/users/update.php',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (resp) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'อัพเดทข้อมูลเรียบร้อยแล้ว',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
+                        location.assign('./');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'อัพเดทข้อมูลล้มเหลวกรุณาลองใหม่',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })/* ; */.then((result) => {
+                        location.assign('./');
+                    });
+                }
+            });
         });
     });
 </script>
 
 </body>
 </html>
+<?php 
+    } else {
+        
+        echo "<script>
+                window.location.href = '../dashboard';
+            </script>";
+
+        exit;
+    } 
+?>

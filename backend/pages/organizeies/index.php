@@ -7,6 +7,8 @@
      */
     require_once('../authen.php'); 
 ?>
+
+<?php if ($_SESSION['AD_STATUS'] === 'superadmin') { ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,8 +175,17 @@
                 }
             })
         }
-
     })
 </script>
 </body>
 </html>
+<?php 
+    } else {
+        
+        echo "<script>
+                window.location.href = '../dashboard';
+            </script>";
+
+        exit;
+    } 
+?>

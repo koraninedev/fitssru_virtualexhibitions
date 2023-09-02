@@ -7,12 +7,13 @@
      */
     require_once('../authen.php'); 
 ?>
+<?php if ($_SESSION['AD_STATUS'] === 'superadmin') { ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>จัดการผู้ดูแลระบบ | Admin FIT SSRU</title>
+  <title>จัดการผู้เข้าชม | Admin FIT SSRU</title>
   <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon.ico">
   <!-- stylesheet -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit" >
@@ -36,8 +37,8 @@
                         <div class="card shadow">
                             <div class="card-header border-0 pt-4">
                                 <h4>
-                                    <i class="fas fa-user-cog"></i> 
-                                    ผู้ดูแลระบบ
+                                    <i class="fas fa-user"></i> 
+                                    ผู้เข้าชม
                                 </h4>
                                 <a href="form-create.php" class="btn btn-primary mt-3">
                                     <i class="fas fa-plus"></i>
@@ -75,23 +76,21 @@
     $(function() {
         $.ajax({
             type: "GET",
-            url: "../../service/manager/index.php"
+            url: "../../service/users/index.php"
         }).done(function(data) {
             let tableData = []
             data.response.forEach(function (item, index){
                 tableData.push([    
                     ++index,
-                    item.username,
-                    item.fisrt_name,
-                    item.last_name,
+                    `<img src="../../../assets/images/uploads/${item.image}" width="80px" height="80px" style="border-radius: 50%; object-fit:cover;">`,
+                    item.firstname,
+                    item.lastname,
                     item.email,
-                    item.updated_at,
-                    `<span class="badge badge-info">${item.status}</span>`,
                     `<div class="btn-group" role="group">
-                        <a href="form-edit.php?id=${item.id}" type="button" class="btn btn-warning text-white">
+                        <a href="form-edit.php?id=${item.u_id}" type="button" class="btn btn-warning text-white">
                             <i class="far fa-edit"></i> แก้ไข
                         </a>
-                        <button type="button" class="btn btn-danger" id="delete" data-id="${item.id}" data-index="${index}">
+                        <button type="button" class="btn btn-danger" id="delete" data-id="${item.u_id}" data-index="${index}">
                             <i class="far fa-trash-alt"></i> ลบ
                         </button>
                     </div>`
@@ -113,12 +112,10 @@
                 data: tableData,
                 columns: [
                     { title: "ลำดับ" , className: "align-middle"},
-                    { title: "ชื่อผู้ใช้งาน" , className: "align-middle"},
-                    { title: "ชื่อจริง", className: "align-middle"},
+                    { title: "รูปโปรไฟล์" , className: "align-middle"},
+                    { title: "ชื่อ" , className: "align-middle"},
                     { title: "นามสกุล", className: "align-middle"},
                     { title: "อีเมล", className: "align-middle"},
-                    { title: "ใช้งานล่าสุด", className: "align-middle"},
-                    { title: "สิทธิ์เข้าใช้งาน", className: "align-middle"},
                     { title: "จัดการ", className: "align-middle"}
                 ],
                 initComplete: function () {
@@ -182,3 +179,13 @@
 </script>
 </body>
 </html>
+<?php 
+    } else {
+        
+        echo "<script>
+                window.location.href = '../dashboard';
+            </script>";
+
+        exit;
+    } 
+?>
