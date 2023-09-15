@@ -5,7 +5,7 @@
      * @link https://appzstory.dev
      * @author Yothin Sapsamran (Jame AppzStory Studio)
      */
-    require_once('../authen.php'); 
+    require_once('../authen.php');
 ?>
 <footer class="main-footer">
     <strong>Copyright &copy; 2022 - 2023

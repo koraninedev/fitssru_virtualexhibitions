@@ -9,7 +9,15 @@
 header('Content-Type: application/json');
 require_once '../connect.php';
 
-$params = array('branch_name' => $_SESSION['AD_BRANCH_NAME']);
+$page = isset($_GET['page']) ? $_GET['page'] : '';
+
+$branch_name = $_SESSION['AD_BRANCH_NAME'];
+
+if ($page === 'cessru') {
+    $branch_name = 'cessru';
+}
+
+$params = array('branch_name' => $branch_name);
 $comments = $connect->prepare("SELECT b.blog_id, b.subject, b.image, b.category, c.comment_id, c.message, c.created_at, u.firstname, u.lastname
                             FROM blogs b
                             JOIN comments c ON b.blog_id = c.blog_id

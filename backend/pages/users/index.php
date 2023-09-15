@@ -40,10 +40,10 @@
                                     <i class="fas fa-user"></i> 
                                     ผู้เข้าชม
                                 </h4>
-                                <a href="form-create.php" class="btn btn-primary mt-3">
+                                <!-- <a href="form-create.php" class="btn btn-primary mt-3">
                                     <i class="fas fa-plus"></i>
                                     เพิ่มข้อมูล
-                                </a>
+                                </a> -->
                             </div>
                             <div class="card-body">
                                 <table  id="logs" 
@@ -119,30 +119,39 @@
                     { title: "จัดการ", className: "align-middle"}
                 ],
                 initComplete: function () {
-                    $(document).on('click', '#delete', function(){ 
-                        let id = $(this).data('id')
-                        let index = $(this).data('index')
+                    $(document).on('click', '#delete', function () {
+                        let id = $(this).data('id');
                         Swal.fire({
                             text: "คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?",
                             icon: 'warning',
                             showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
                             confirmButtonText: 'ใช่! ลบเลย',
                             cancelButtonText: 'ยกเลิก'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $.ajax({  
-                                    type: "DELETE",  
-                                    url: "../../service/manager/delete.php",  
-                                    data: { id: id }
-                                }).done(function() {
-                                    Swal.fire({
-                                        text: 'รายการของคุณถูกลบเรียบร้อย',
-                                        icon: 'success',
-                                        confirmButtonText: 'ตกลง',
-                                    }).then((result) => {
-                                        location.reload()
-                                    })
-                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: "../../service/users/delete.php",
+                                    data: { id: id },
+                                    success: function(response) {
+                                        Swal.fire({
+                                            text: 'ลบข้อมูลเรียบร้อยแล้ว',
+                                            icon: 'success',
+                                            confirmButtonText: 'ตกลง',
+                                        }).then((result) => {
+                                            location.reload();
+                                        });
+                                    },
+                                    error: function (xhr, status, error) {
+                                        Swal.fire({
+                                            text: 'ไม่สามารถลบรายการได้',
+                                            icon: 'error',
+                                            confirmButtonText: 'ตกลง',
+                                        });
+                                    }
+                                });
                             }
                         })
                     })

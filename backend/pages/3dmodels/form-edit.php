@@ -71,6 +71,13 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
+<?php 
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $row['branch_name'];
+    }                                        
+ ?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -85,7 +92,7 @@
                                     <i class="fas fa-cube"></i> 
                                     แก้ไขบทความ
                                 </h4>
-                                <a href="./" class="btn btn-info mt-3">
+                                <a href="./<?php echo isset($_GET['page']) ? '?page=' . $_GET['page'] : ''; ?>" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
                                     กลับหน้าหลัก
                                 </a>
@@ -94,7 +101,7 @@
                                 <div class="card-body">
                                     <div class="form-row">
                                         <input type="hidden" name="blog_id" value="<?php echo $_GET['id']; ?>">
-                                        <input name="branch_name" value="<?php echo $row['branch_name']?>" style="display: none;">
+                                        <input name="branch_name" value="<?php echo $branchName?>" style="display: none;">
                                         <div class="form-group col-md-4">
                                             <label for="cat_name">ประเภทบทความ</label>
                                             <select class="custom-select mb-3" disabled  id="category">
@@ -119,7 +126,12 @@
                                             <div class="image-preview mt-2" id="thumbnail-preview" style="display: none; position: relative;"></div>
                                             <?php
                                                 if (!empty($row['image'])) {
-                                                    echo '<img src="../../../assets/3dmodels/' . $_SESSION['AD_BRANCH_NAME'] . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
+                                                    if (isset($_GET['page'])) {
+                                                        $branchName = $_GET['page'];
+                                                    } else {
+                                                        $branchName = $_SESSION['AD_BRANCH_NAME'];
+                                                    }
+                                                    echo '<img src="../../../assets/3dmodels/' . $branchName . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
                                                 }
                                             ?>
                                         </div>
@@ -189,10 +201,19 @@
 <script src="../../assets/js/adminlte.min.js"></script>
 
 <script>
+    
+</script>
+
+<script>
     $(function() {
 
         $('#formData').on('submit', function (e) {
             e.preventDefault();
+
+            <?php
+                $redirectURL = isset($_GET['page']) ? './?page=' . $_GET['page'] : './';
+            ?>
+            var redirectURL = '<?php echo $redirectURL; ?>';
 
             const selectedCategory = $("#category option:selected");
             const selectedStatus = $("#status option:selected");
@@ -219,7 +240,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     })/* ; */.then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 },
                 error: function (xhr, status, error) {
@@ -229,7 +250,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     })/* ; */.then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 }
             });

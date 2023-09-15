@@ -9,7 +9,15 @@
 header('Content-Type: application/json');
 require_once '../connect.php';
 
-$params = array('branch_name' => $_SESSION['AD_BRANCH_NAME'], 'category' => 'video');
+$page = isset($_GET['page']) ? $_GET['page'] : '';
+
+$branch_name = $_SESSION['AD_BRANCH_NAME'];
+
+if ($page === 'cessru') {
+    $branch_name = 'cessru';
+}
+
+$params = array('branch_name' => $branch_name, 'category' => 'video');
 $video = $connect->prepare("SELECT * FROM blogs WHERE branch_name = :branch_name AND category = :category");
 $video->execute($params);
 

@@ -28,6 +28,14 @@
   <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
+                    
+<?php
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $_SESSION['AD_BRANCH_NAME'];
+    }
+?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -42,10 +50,17 @@
                                     <i class="fas fa-cube"></i> 
                                     รายการบทความ
                                 </h4>
+                                <?php if(isset($_GET['page'])){ ?>
+                                    <a href="form-create.php?page=<?php echo $branchName; ?>" class="btn btn-primary mt-3">
+                                        <i class="fas fa-plus"></i>
+                                        เพิ่มข้อมูล
+                                    </a>
+                                <?php } else { ?>
                                 <a href="form-create.php" class="btn btn-primary mt-3">
                                     <i class="fas fa-plus"></i>
                                     เพิ่มข้อมูล
                                 </a>
+                                <?php } ?>
                             </div>
                             <div class="card-body">
                                 <table  id="logs" 
@@ -74,29 +89,46 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
 <script>
     $(function() {
+
+        var pageValue = <?php echo isset($_GET['page']) ? "'".$_GET['page']."'" : 'null'; ?>;
+
         $.ajax({
             type: "GET",
-            url: "../../service/3dmodels/"
+            url: "../../service/3dmodels/",
+            data: { page: pageValue },
         }).done(function(data) {
             let tableData = []
             data.response.forEach(function (item, index){
                 const formattedBlogId = (item.blog_id ?? 0).toString().padStart(3, '0');
-                
+
+                <?php
+                    if (isset($_GET['page'])) {
+                        echo "var branchName = '{$_GET['page']}';";
+                    } else {
+                        echo "var branchName = '{$_SESSION['AD_BRANCH_NAME']}';";
+                    }
+                ?>
+
                 tableData.push([    
                     `<a href="${item.url}" target="_blank" class="btn btn-outline-primary p-1">  B3D-${formattedBlogId} </a>`,
-                    `<img src="../../../assets/3dmodels/<?php echo $_SESSION['AD_BRANCH_NAME'] ?>/thumbnails/${item.image}" class="img-fluid" width="150px">`,
+                    `<img src="../../../assets/3dmodels/${branchName}/thumbnails/${item.image}" class="img-fluid" width="150px">`,
                     `${item.subject}`,
                     `${item.subtitle}`,
                     `<input class="toggle-event" data-id="${item.blog_id}" type="checkbox" name="status" 
                             data-toggle="toggle" data-on="เผยแพร่" 
                             data-off="ปิด" data-onstyle="success" data-style="ios" ${item.blog_status ? 'checked': ''}>`,
                     `<div class="btn-group" role="group">
-                        <a href="form-edit.php?id=${item.blog_id}" type="button" class="btn btn-warning">
-                            <i class="far fa-edit"></i> แก้ไข
-                        </a>
+                        <?php if (isset($_GET['page'])) { ?>
+                            <a href="form-edit.php?page=${branchName}&id=${item.blog_id}" type="button" class="btn btn-warning">
+                                <i class="far fa-edit"></i> แก้ไข
+                            </a>
+                        <?php } else { ?>
+                            <a href="form-edit.php?id=${item.blog_id}" type="button" class="btn btn-warning">
+                                <i class="far fa-edit"></i> แก้ไข
+                            </a>
+                        <?php } ?>
                         <button type="button" class="btn btn-danger" id="delete" data-id="${item.blog_id}">
                             <i class="far fa-trash-alt"></i> ลบ
                         </button>

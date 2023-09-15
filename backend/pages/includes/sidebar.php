@@ -127,7 +127,7 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="engineering" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../cessru/" aria-current="page">
                                 <i class="nav-icon fas fa-laptop"></i>
                                 <p>วิศวกรรมคอมพิวเตอร์</p>
                             </a>

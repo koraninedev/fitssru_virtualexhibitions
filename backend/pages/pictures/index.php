@@ -77,17 +77,29 @@
 
 <script>
     $(function() {
+
+        var pageValue = <?php echo isset($_GET['page']) ? "'".$_GET['page']."'" : 'null'; ?>;
+
         $.ajax({
             type: "GET",
-            url: "../../service/pictures/"
+            url: "../../service/pictures/",
+            data: { page: pageValue },
         }).done(function(data) {
             let tableData = []
             data.response.forEach(function (item, index){
                 const formattedBlogId = (item.blog_id ?? 0).toString().padStart(3, '0');
 
+                <?php
+                    if (isset($_GET['page'])) {
+                        echo "var branchName = '{$_GET['page']}';";
+                    } else {
+                        echo "var branchName = '{$_SESSION['AD_BRANCH_NAME']}';";
+                    }
+                ?>
+
                 tableData.push([    
                     `<a href="${item.url}" target="_blank" class="btn btn-outline-primary p-1"> BP-${formattedBlogId} </a>`,
-                    `<img src="../../../assets/pictures/<?php echo $_SESSION['AD_BRANCH_NAME'] ?>/thumbnails/${item.image}" class="img-fluid" width="150px">`,
+                    `<img src="../../../assets/pictures/${branchName}/thumbnails/${item.image}" class="img-fluid" width="150px">`,
                     `${item.subject}`,
                     `${item.subtitle}`,
                     `<input class="toggle-event" data-id="${item.blog_id}" type="checkbox" name="status" 
