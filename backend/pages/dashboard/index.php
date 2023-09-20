@@ -29,6 +29,7 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
+                <?php if ($_SESSION['AD_BRANCH_NAME'] != "superadmin") { ?>
                 <div class="row">
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info shadow">
@@ -130,29 +131,154 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="d-flex flex-column">
-                                        <span class="text-bold text-xl" id="salesReport"></span>
-                                        <span class="text-danger" id="salesTextReport"></span>
-                                    </p>
-                                    <p class="ml-auto flex-row" id="salesbtn">
-                                        <button class="btn btn-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-month.php', this, 'line')">ยอดขายเดือนนี้</button>
-                                        <button class="btn btn-outline-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-sixmonths.php', this, 'bar')">6 เดือน</button>
-                                        <button class="btn btn-outline-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-twelvemonths.php', this, 'bar')">12 เดือน</button>
-                                        <button class="btn btn-outline-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-year.php', this, 'bar')">2021</button>
-                                    </p>
+
+                <div class="small-box py-4 bg-success shadow">
+                    <div class="inner">
+                        <h3 class="text-bold text-white pl-4" style="font-size: 1.75rem;">วิธีการใช้งานเบื้องต้น  :<a class="pl-3" href="#">Test.pdf</a></h3>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+
+                <?php } else { ?>
+
+                <div class="small-box py-3 bg-black-50 shadow">
+                    <div class="inner text-center">
+                        <h3>ยินดีต้อนรับผู้ดูแลระบบ</h3>
+                        <p class="text-danger">Welcome back admin</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                </div>
+
+                <div class="small-box py-3 bg-white shadow px-5">
+                    <div class="inner text-center">
+                        <h3 class="text-bold text-secondary" style="font-size: 1.5rem;">วิทยาศาสตร์บัณฑิต</h3>
+                        <div class="icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">เทคโนโลยีความปลอดภัยและอาชีวอนามัย</h1>
                                 </div>
-                                <div class="position-relative">
-                                    <canvas id="visitors-chart" height="350"></canvas>
+                                <a href="../stohssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-primary shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">เทคโนโลยีไฟฟ้า</h1>
                                 </div>
+                                <a href="../ietssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-success shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">การจัดการอสังหาริมทรัพย์และทรัพยากรอาคาร</h1>
+                                </div>
+                                <a href="../real-fmssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-danger shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">การออกแบบกราฟิกและมัลติมีเดีย</h1>
+                                </div>
+                                <a href="../gmdssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="small-box py-3 bg-white shadow px-5">
+                    <div class="inner text-center">
+                        <h3 class="text-bold text-secondary" style="font-size: 1.5rem;">วิศวกรรมศาสตรบัณฑิต</h3>
+                        <div class="icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">วิศวกรรมคอมพิวเตอร์</h1>
+                                </div>
+                                <a href="../cessru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-primary shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">วิศวกรรมหุ่นยนต์</h1>
+                                </div>
+                                <a href="../rbessru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-success shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">การจัดการวิศวกรรม</h1>
+                                </div>
+                                <a href="../messru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="small-box py-3 bg-white shadow px-5">
+                    <div class="inner text-center">
+                        <h3 class="text-bold text-secondary" style="font-size: 1.5rem;">การออกแบบบัณฑิต</h3>
+                        <div class="icon">
+                            <i class="fas fa-pencil-ruler"></i>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">การออกแบบนิทรรศการและแอนิเมชันสามมิติ</h1>
+                                </div>
+                                <a href="../iedssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-primary shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">การออกแบบผลิตภัณฑ์และบรรจุภัณฑ์</h1>
+                                </div>
+                                <a href="../idssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="small-box py-3 bg-white shadow px-5">
+                    <div class="inner text-center">
+                        <h3 class="text-bold text-secondary" style="font-size: 1.5rem;">ครุศาสตร์อุตสาหกรรมบัณฑิต</h3>
+                        <div class="icon">
+                            <i class="fas fa-align-center"></i>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info shadow">
+                                <div class="inner text-center">
+                                    <h1 class="py-3" style="font-size: 1.1rem !important;">อุตสาหกรรมศิลป์และวิทยาศาสตร์</h1>
+                                </div>
+                                <a href="../printingssru/" class="small-box-footer py-3" target="_blank"> คลิกจัดการระบบ <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <?php } ?>
             </div>
         </div>
     </div>

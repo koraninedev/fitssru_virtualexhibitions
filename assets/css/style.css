@@ -435,7 +435,7 @@ background-color: #ff0000;
 
 #showFull i:hover {
     font-size: 50px;
-    transition: 0.3s;
+    transition: all 0.3s ease-out;
 }
 
 #featured {

@@ -85,16 +85,16 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="subject">เรื่อง</label>
-                                            <input type="text" class="form-control" name="subject" id="subject" placeholder="เรื่อง" >
+                                            <input type="text" class="form-control" name="subject" id="subject" placeholder="เรื่อง" required>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="subtitle">คำบรรยาย</label>
-                                            <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="คำบรรยายสั้นๆ">
+                                            <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="คำบรรยายสั้นๆ" required>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="thumbnail">รูปปกบทความ</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail">
+                                                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail" required>
                                                 <label class="custom-file-label" for="thumbnail">เลือกรูปภาพ</label>
                                                 <span class="remove-image" id="remove-thumbnail" style="display: none;">X</span>
                                             </div>
@@ -103,14 +103,14 @@
                                         <div class="form-group col-sm-6">
                                             <label for="images">โมเดลภายในบทความ (.obj)</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="models" name="model[]" accept=".obj">
+                                                <input type="file" class="custom-file-input" id="models" name="model[]" accept=".obj" required>
                                                 <label class="custom-file-label" for="models">เลือกโมเดล</label>
                                             </div>
                                             <div id="models-preview" class="models-preview-container"></div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="url">URL สั้น</label>
-                                            <input type="text" class="form-control" name="url" id="url" placeholder="Url บทความเช่น arduino , ชื่อผลงานสั้นๆ" >
+                                            <label for="url">URL สั้น (แสดงบน URL **ห้ามซ้ำกับบทความอื่นๆ**)</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="Url บทความเช่น arduino , ชื่อผลงานสั้นๆ" required>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="url">สถานะของบทความ</label>
@@ -121,7 +121,7 @@
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="detail">รายละเอียดของบทความ</label>
-                                            <textarea id="detail" class="form-control" name="detail" style="height: 300px;" placeholder="กรอกรายละเอียดของบทความ..."></textarea>
+                                            <textarea id="detail" class="form-control" name="detail" style="height: 300px;" placeholder="กรอกรายละเอียดของบทความ..." required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -215,7 +215,7 @@
                                 "alt": "Image Preview",
                                 "width": "150",
                                 "height": "150",
-                                "style": "margin-right: 5px;"
+                                "style": "margin-right: 5px; object-fit: cover;"
                             });
                             imagePreviewContainer.append(img);
                         };

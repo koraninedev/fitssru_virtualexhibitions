@@ -73,13 +73,13 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="manage" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4 <?php echo isActive('organizeies') ?>" href="../organizeies/" aria-current="page">
+                            <a class="nav-link pl-4 <?php echo isActive('organizeies') ?>" href="../organizeies/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-sitemap"></i>
                                 <p>จัดการบัญชีผู้จัดนิทรรศการ</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4 <?php echo isActive('users') ?>" href="../users/" aria-current="page">
+                            <a class="nav-link pl-4 <?php echo isActive('users') ?>" href="../users/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>จัดการบัญชีผู้เข้าชม</p>
                             </a>
@@ -87,7 +87,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                        <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>">
+                        <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>" target="_blank">
                             <i class="nav-icon fab fa-dropbox"></i>
                             <p>จัดการนิทรรศการ</p>
                         </a>
@@ -100,25 +100,25 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="science" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../stohssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../stohssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-hard-hat"></i>
                                 <p>เทคโนโลยีความปลอดภัยและอาชีวอนามัย</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../ietssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../ietssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-bolt"></i>
                                 <p>เทคโนโลยีไฟฟ้า</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../real-fmssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../real-fmssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-synagogue"></i>
                                 <p>การจัดการอสังหาริมทรัพย์และทรัพยากรอาคาร</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../gmdssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../gmdssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-pen-fancy"></i>
                                 <p>การออกแบบกราฟิกและมัลติมีเดีย</p>
                             </a>
@@ -133,19 +133,19 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="engineering" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../cessru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../cessru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-laptop"></i>
                                 <p>วิศวกรรมคอมพิวเตอร์</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../rbessru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../rbessru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-robot"></i>
                                 <p>วิศวกรรมหุ่นยนต์</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../messru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../messru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>การจัดการวิศวกรรม</p>
                             </a>
@@ -160,13 +160,13 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="design" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../iedssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../iedssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-layer-group"></i>
                                 <p>การออกแบบนิทรรศการและแอนิเมชันสามมิติ</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../idssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../idssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-box-open"></i>
                                 <p>การออกแบบผลิตภัณฑ์และบรรจุภัณฑ์</p>
                             </a>
@@ -181,7 +181,7 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="teacher" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="../printingssru/" aria-current="page">
+                            <a class="nav-link pl-4" href="../printingssru/" aria-current="page" target="_blank">
                                 <i class="nav-icon fas fa-layer-group"></i>
                                 <p>อุตสาหกรรมศิลป์และวิทยาศาสตร์</p>
                             </a>

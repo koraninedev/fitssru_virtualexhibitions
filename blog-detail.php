@@ -28,11 +28,6 @@
         header('location: ./');
 
     }
-    /* $blogs[0]['branch_name'] == "cessru" */
-/*     echo '<pre>';
-    print_r($blogs);
-    print_r($blogs[0]['branch_name']);
-    echo '</pre>'; */
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +53,37 @@
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .image-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .overlay-text {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .image-container:hover .overlay {
+            opacity: 1;
+        }
+    </style>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v10.0&appId=1264860467204492&autoLogAppEvents=1" nonce="IU4EXUOc"></script>
 </head>
@@ -109,10 +135,15 @@
                                 
                                 <div class="row mb-2">
                                     <div class="col-12">
-                                        <img id="featured" class="img-fluid" src="assets/pictures/<?php echo $blogs[0]['branch_name'] ?>/images/<?php echo $pics[0]['image'] ?>" width="50%">
+                                        <div id="image-overlay" class="image-container">
+                                            <img id="featured" src="assets/pictures/<?php echo $blogs[0]['branch_name'] ?>/images/<?php echo $pics[0]['image'] ?>" style="height: 700px; object-fit: cover;">
+                                            <div class="overlay">
+                                                <p class="overlay-text">คลิกเพื่อดูรูปเต็ม</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="showFull">
-                                        <img id="featuredFull" class="img-fluid">
+                                        <img id="featuredFull" class="img-fluid py-5" style="height: 100%; object-fit: cover;">
                                         <i id="close-full" class="fas fa-times"></i>
                                     </div>
                                 </div>
@@ -120,7 +151,7 @@
                                     <i id="buttonLeft" class="fas fa-arrow-circle-left me-2"></i>
                                     <div id="slider">
                                         <?php foreach($pics as $pic) {?>
-                                            <img class="thumbnail img-fluid me-2" src="assets/pictures/<?php echo $blogs[0]['branch_name'] ?>/images/<?php echo $pic['image'] ?>">
+                                            <img class="thumbnail me-2" src="assets/pictures/<?php echo $blogs[0]['branch_name'] ?>/images/<?php echo $pic['image'] ?>" style="height: 100px;">
                                         <?php } ?> 
                                     </div>
                                     <i id="buttonRight" class="fas fa-arrow-circle-right ms-2"></i>
@@ -137,7 +168,7 @@
                             <?php } ?>
 
                             <article class="my-3" v-html="blog.detail"></article>
-                            <div class="sharethis-inline-share-buttons"></div>
+                            <!-- <div class="sharethis-inline-share-buttons"></div> -->
                             <footer class="my-3">
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">

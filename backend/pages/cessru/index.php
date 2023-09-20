@@ -139,33 +139,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="d-flex flex-column">
-                                        <span class="text-bold text-xl" id="salesReport"></span>
-                                        <span class="text-danger" id="salesTextReport"></span>
-                                    </p>
-                                    <p class="ml-auto flex-row" id="salesbtn">
-                                        <button class="btn btn-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-month.php', this, 'line')">ยอดขายเดือนนี้</button>
-                                        <button class="btn btn-outline-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-sixmonths.php', this, 'bar')">6 เดือน</button>
-                                        <button class="btn btn-outline-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-twelvemonths.php', this, 'bar')">12 เดือน</button>
-                                        <button class="btn btn-outline-secondary m-1 d-block d-md-inline ml-auto" onclick="selectReport('report-year.php', this, 'bar')">2021</button>
-                                    </p>
-                                </div>
-                                <div class="position-relative">
-                                    <canvas id="visitors-chart" height="350"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
-    <?php include_once('../../includes/footer.php') ?>
+    <?php include_once('../includes/footer.php') ?>
 </div>
 
 

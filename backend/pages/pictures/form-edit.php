@@ -266,7 +266,7 @@
                                 "alt": "Image Preview",
                                 "width": "150",
                                 "height": "150",
-                                "style": "margin-right: 5px;"
+                                "style": "margin-right: 5px; object-fit: cover;"
                             });
                             imagePreviewContainer.append(img);
                         };

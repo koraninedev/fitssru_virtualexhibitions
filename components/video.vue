@@ -2,7 +2,8 @@
     <div class="card shadow-sm border-0 h-100">
         <!-- <a :href="`blog/${blog.url}`"> -->
         <a :href="`video/${video.blog_id}-${video.url}`">
-            <img :src="`assets/videos/${video.branch_name}/thumbnails/${video.image}`" class="card-img-top" :alt="`${video.branch_name}/${video.image}`">
+            <img :src="`assets/videos/${video.branch_name}/thumbnails/${video.image}`" class="card-img-top" :alt="`${video.branch_name}/${video.image}`"
+                  style="height: 300px; width: 100%; object-fit: cover;">
         </a>
         <div class="card-body d-flex flex-column">
             <p class="card-title fw-bold lh-base">{{ video.subject}}</p>

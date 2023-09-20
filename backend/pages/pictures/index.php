@@ -119,7 +119,7 @@
 
                 tableData.push([    
                     `<a href="${item.url}" target="_blank" class="btn btn-outline-primary p-1"> BP-${formattedBlogId} </a>`,
-                    `<img src="../../../assets/pictures/${branchName}/thumbnails/${item.image}" class="img-fluid" width="150px">`,
+                    `<img src="../../../assets/pictures/${branchName}/thumbnails/${item.image}" width="150px" height="90px" style="object-fit: cover;">`,
                     `${item.subject}`,
                     `${item.subtitle}`,
                     `<input class="toggle-event" data-id="${item.blog_id}" type="checkbox" name="status" 

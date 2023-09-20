@@ -2,7 +2,8 @@
     <div class="card shadow-sm border-0 h-100">
         <!-- <a :href="`blog/${blog.url}`"> -->
         <a :href="`pic/${pic.blog_id}-${pic.url}`">
-            <img :src="`assets/pictures/${pic.branch_name}/thumbnails/${pic.image}`" class="card-img-top" :alt="`${pic.branch_name}/${pic.image}`">
+            <img :src="`assets/pictures/${pic.branch_name}/thumbnails/${pic.image}`" class="card-img-top" :alt="`${pic.branch_name}/${pic.image}`"
+                style="height: 300px; width: 100%; object-fit: cover;">
         </a>
         <div class="card-body d-flex flex-column">
             <p class="card-title fw-bold lh-base">{{ pic.subject}}</p>

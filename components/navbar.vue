@@ -19,7 +19,7 @@
                         <a class="nav-link" href="branch_workshop">ผลงานของสาขา</a>
                     </li>
                     <li class="nav-item px-3 px-md-0">
-                        <a class="nav-link" href="contact">ติดต่อ</a>
+                        <a class="nav-link" href="contact">เกี่ยวกับเรา</a>
                     </li>
                     <li class="nav-item px-3 px-md-0" v-if="!auth.data">
                         <a class="nav-link" href="register">สมัครสมาชิก</a>

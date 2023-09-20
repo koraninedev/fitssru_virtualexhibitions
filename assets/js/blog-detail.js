@@ -486,6 +486,7 @@ new Vue({
           const activeImages = document.getElementsByClassName("thumbnail active");     
           const showFull = document.getElementById("showFull");
           const featuredMain = document.getElementById("featured");
+          const imageOverlay = document.getElementById("image-overlay");
           const featuredFull = document.getElementById("featuredFull");
           const closeFull = document.getElementById("close-full");     
           const buttonRight = document.getElementById("buttonRight");
@@ -530,14 +531,26 @@ new Vue({
             });
           });
 
-          featuredMain.addEventListener("click", function () {
+          imageOverlay.addEventListener("click", function () {
             showFull.style.display = "flex";
-            featuredFull.src = this.src;
+            featuredFull.src = featuredMain.src;
           });
 
           closeFull.addEventListener("click", function () {
             showFull.style.display = "none";
           });
+
+          showFull.addEventListener("click", function (event) {
+            if (event.target === this) {
+                // ในกรณีที่คลิกที่พื้นหลังของ #showFull แต่ไม่ใช่รูปภาพเต็ม
+                showFull.style.display = "none";
+            }
+          });
+
+          showFull.addEventListener("wheel", function (event) {
+            event.preventDefault();
+          });
+          
         }
       };
     }
