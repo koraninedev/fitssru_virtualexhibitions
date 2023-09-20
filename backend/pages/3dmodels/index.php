@@ -48,12 +48,16 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-cube"></i> 
-                                    รายการบทความ
+                                    รายการบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
                                 <?php if(isset($_GET['page'])){ ?>
                                     <a href="form-create.php?page=<?php echo $branchName; ?>" class="btn btn-primary mt-3">
                                         <i class="fas fa-plus"></i>
                                         เพิ่มข้อมูล
+                                    </a>
+                                    <a href="../<?php echo $_GET['page']?>" class="btn btn-info mt-3">
+                                        <i class="fas fa-list"></i>
+                                        กลับหน้าหลัก
                                     </a>
                                 <?php } else { ?>
                                 <a href="form-create.php" class="btn btn-primary mt-3">

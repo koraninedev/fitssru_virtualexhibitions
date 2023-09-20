@@ -9,6 +9,24 @@ $branch_name = $_SESSION['AD_BRANCH_NAME'];
 
 if ($page === 'cessru') {
     $branch_name = 'cessru';
+} else if ($page === 'rbessru') {
+    $branch_name = 'rbessru';
+} else if ($page === 'messru') {
+    $branch_name = 'messru';
+} else if ($page === 'stohssru') {
+    $branch_name = 'stohssru';
+} else if ($page === 'ietssru') {
+    $branch_name = 'ietssru';
+} else if ($page === 'real-fmssru') {
+    $branch_name = 'real-fmssru';
+} else if ($page === 'gmdssru') {
+    $branch_name = 'gmdssru';
+} else if ($page === 'iedssru') {
+    $branch_name = 'iedssru';
+} else if ($page === 'idssru') {
+    $branch_name = 'idssru';
+} else if ($page === 'printingssru') {
+    $branch_name = 'printingssru';
 }
 
 $params = array('branch_name' => $branch_name, 'category' => '3dmodel');

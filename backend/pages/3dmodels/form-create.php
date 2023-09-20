@@ -66,9 +66,9 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-cube"></i> 
-                                    เพิ่มข้อมูลบทความ
+                                    เพิ่มข้อมูลบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
-                                <a href="./" class="btn btn-info mt-3">
+                                <a href="./<?php echo isset($_GET['page']) ? '?page=' . $_GET['page'] : ''; ?>" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
                                     กลับหน้าหลัก
                                 </a>

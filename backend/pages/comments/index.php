@@ -42,6 +42,12 @@
                                     <i class="fas fa-comments"></i> 
                                     รายการความคิดเห็น
                                 </h4>
+                                <?php if(isset($_GET['page'])){ ?>
+                                    <a href="../<?php echo $_GET['page']?>" class="btn btn-info mt-3">
+                                        <i class="fas fa-list"></i>
+                                        กลับหน้าหลัก
+                                    </a>
+                                <?php } ?>
                             </div>
                             <div class="card-body">
                                 <table  id="logs" 

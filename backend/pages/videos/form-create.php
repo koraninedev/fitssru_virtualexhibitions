@@ -35,6 +35,13 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
+<?php 
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $_SESSION['AD_BRANCH_NAME'];
+    }                                        
+?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -47,9 +54,9 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-video"></i> 
-                                    เพิ่มข้อมูลบทความ
+                                    เพิ่มข้อมูลบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
-                                <a href="./" class="btn btn-info mt-3">
+                                <a href="./<?php echo isset($_GET['page']) ? '?page=' . $_GET['page'] : ''; ?>" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
                                     กลับหน้าหลัก
                                 </a>
@@ -57,7 +64,7 @@
                             <form id="formData" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="form-row">
-                                        <input name="branch_name" value="<?php echo $_SESSION['AD_BRANCH_NAME'] ?>" style="display: none;">
+                                        <input name="branch_name" value="<?php echo $branchName ?>" style="display: none;">
                                         <div class="form-group col-md-4">
                                             <label for="cat_name">ประเภทบทความ</label>
                                             <select class="custom-select mb-3" disabled  id="category">
@@ -135,6 +142,11 @@
         $('#formData').on('submit', function (e) {
             e.preventDefault();
 
+            <?php
+                $redirectURL = isset($_GET['page']) ? './?page=' . $_GET['page'] : './';
+            ?>
+            var redirectURL = '<?php echo $redirectURL; ?>';
+
             const selectedCategory = $("#category option:selected");
             const selectedStatus = $("#status option:selected");
             const dataTypeCategory = selectedCategory.data("category");
@@ -157,7 +169,7 @@
                         icon: 'success',
                         confirmButtonText: 'ตกลง',
                     }).then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 },
                 error: function (xhr, status, error) {
@@ -255,6 +267,55 @@
                 } else {
                     label.text("เลือกวิดีโอ");
                 }
+        }
+
+        function clearPreviewAndInput(inputId) {
+
+            $("#" + inputId + "-preview").empty().hide();
+            $("#" + inputId).val("");
+
+            const label = $("#" + inputId).siblings(".custom-file-label");
+            label.text("เลือกวิดีโอ");
+        }
+
+        document.getElementById('videos').addEventListener('change', function() {
+            
+            const videoFiles = this.files;
+            const inputFieldId = 'videos';
+            
+            for (let i = 0; i < videoFiles.length; i++) {
+                const video = videoFiles[i];
+                const videoDuration = getVideoDuration(video);
+                videoDuration.then(result => {
+                    if (result > 5 * 60) {
+                        Swal.fire({
+                            title: 'ไม่สามารถเพิ่มวิดีโอได้',
+                            text: 'ความยาวของวิดีโอเกิน 5 นาที',
+                            icon: 'error',
+                            confirmButtonText: 'ตกลง',
+                        }).then((result) => {
+                            clearPreviewAndInput(inputFieldId);
+                        });
+                        return;
+                    }
+                });
+            }
+        });
+
+        function getVideoDuration(videoFile) {
+            return new Promise((resolve, reject) => {
+                const video = document.createElement('video');
+                video.preload = 'metadata';
+                video.onloadedmetadata = function() {
+                    window.URL.revokeObjectURL(video.src);
+                    resolve(video.duration);
+                };
+                video.onerror = function() {
+                    reject('ไม่สามารถอ่านวิดีโอ');
+                };
+
+                video.src = URL.createObjectURL(videoFile);
+            });
         }
 
     });

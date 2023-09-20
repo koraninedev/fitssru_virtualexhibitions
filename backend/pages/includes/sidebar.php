@@ -86,6 +86,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                        <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>">
+                            <i class="nav-icon fab fa-dropbox"></i>
+                            <p>จัดการนิทรรศการ</p>
+                        </a>
+                </li>
                 <li class="nav-item disabled">
                     <a class="nav-link" href="#science" data-toggle="collapse" aria-current="page">
                         <i class="nav-icon fas fa-atom"></i>
@@ -94,25 +100,25 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="science" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../stohssru/" aria-current="page">
                                 <i class="nav-icon fas fa-hard-hat"></i>
                                 <p>เทคโนโลยีความปลอดภัยและอาชีวอนามัย</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../ietssru/" aria-current="page">
                                 <i class="nav-icon fas fa-bolt"></i>
                                 <p>เทคโนโลยีไฟฟ้า</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../real-fmssru/" aria-current="page">
                                 <i class="nav-icon fas fa-synagogue"></i>
                                 <p>การจัดการอสังหาริมทรัพย์และทรัพยากรอาคาร</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../gmdssru/" aria-current="page">
                                 <i class="nav-icon fas fa-pen-fancy"></i>
                                 <p>การออกแบบกราฟิกและมัลติมีเดีย</p>
                             </a>
@@ -133,13 +139,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../rbessru/" aria-current="page">
                                 <i class="nav-icon fas fa-robot"></i>
                                 <p>วิศวกรรมหุ่นยนต์</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../messru/" aria-current="page">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>การจัดการวิศวกรรม</p>
                             </a>
@@ -154,15 +160,30 @@
                     </a>
                     <ul class="nav collapse nav-sidebar flex-column" id="design" data-parent="#menu">
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../iedssru/" aria-current="page">
                                 <i class="nav-icon fas fa-layer-group"></i>
                                 <p>การออกแบบนิทรรศการและแอนิเมชันสามมิติ</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pl-4" href="#" aria-current="page">
+                            <a class="nav-link pl-4" href="../idssru/" aria-current="page">
                                 <i class="nav-icon fas fa-box-open"></i>
                                 <p>การออกแบบผลิตภัณฑ์และบรรจุภัณฑ์</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#teacher" data-toggle="collapse" aria-current="page">
+                        <i class="nav-icon fas fa-align-center"></i>
+                        <p style="font-size: 11px;">ครุศาสตร์อุตสาหกรรมบัณฑิต</p>
+                        <i class="nav-icon fas fa-caret-down"></i>
+                    </a>
+                    <ul class="nav collapse nav-sidebar flex-column" id="teacher" data-parent="#menu">
+                        <li class="nav-item">
+                            <a class="nav-link pl-4" href="../printingssru/" aria-current="page">
+                                <i class="nav-icon fas fa-layer-group"></i>
+                                <p>อุตสาหกรรมศิลป์และวิทยาศาสตร์</p>
                             </a>
                         </li>
                     </ul>
@@ -190,6 +211,17 @@
                         <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>">
                             <i class="nav-icon fas fa-comments"></i>
                             <p>ความคิดเห็นบทความ</p>
+                            <?php
+                                $branch_name = $_SESSION['AD_BRANCH_NAME'];
+                                $params = array('branch_name' => $branch_name);
+                                $comments = $connect->prepare("SELECT b.blog_id, b.subject, b.image, b.category, c.comment_id, c.message, c.created_at, u.firstname, u.lastname
+                                                            FROM blogs b
+                                                            JOIN comments c ON b.blog_id = c.blog_id
+                                                            JOIN users u on c.u_id = u.u_id
+                                                            WHERE b.branch_name = :branch_name");
+                                $comments->execute($params); 
+                            ?>
+                            <span id="comment-badge" class="badge badge-danger">0</span>
                         </a>
                     </li>
                 <?php } ?>
@@ -236,4 +268,26 @@
     event.preventDefault();
     handleLogout();
   });
+
+    function updateCommentBadge(newCount) {
+        const badge = document.getElementById('comment-badge');
+        badge.textContent = newCount;
+    }
+
+    function checkForNewComments() {
+        $.ajax({
+            type: "GET",
+            url: "../../service/comments/?page=<?php echo $_SESSION['AD_BRANCH_NAME'] ?>",
+            success: function (data) {
+                const newCommentCount = data.response.length;
+                updateCommentBadge(newCommentCount);
+            },
+            error: function (error) {
+                console.error('Error fetching new comments:', error);
+            }
+        });
+
+        setTimeout(checkForNewComments, 5 * 60 * 1000);
+    }
+    window.addEventListener('load', checkForNewComments);
 </script>

@@ -65,6 +65,13 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
+<?php 
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $row['branch_name'];
+    }                                        
+?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -77,9 +84,9 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-images"></i> 
-                                    แก้ไขบทความ
+                                    แก้ไขบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
-                                <a href="./" class="btn btn-info mt-3">
+                                <a href="./<?php echo isset($_GET['page']) ? '?page=' . $_GET['page'] : ''; ?>" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
                                     กลับหน้าหลัก
                                 </a>
@@ -113,7 +120,7 @@
                                             <div class="image-preview mt-2" id="thumbnail-preview" style="display: none; position: relative;"></div>
                                             <?php
                                                 if (!empty($row['image'])) {
-                                                    echo '<img src="../../../assets/pictures/' . $_SESSION['AD_BRANCH_NAME'] . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
+                                                    echo '<img src="../../../assets/pictures/' . $branchName. '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
                                                 }
                                             ?>
                                         </div>
@@ -129,7 +136,7 @@
                                                     if (!empty($rowPics)) {
                                                         foreach ($rowPics as $rowPic) {
                                                             echo '<div class="image-with-delete">';
-                                                            echo '<img src="../../../assets/pictures/' . $_SESSION['AD_BRANCH_NAME'] . '/images/' . $rowPic['image'] . '" class="img-fluid mt-2" width="150px" style="margin-right: 5px;">';
+                                                            echo '<img src="../../../assets/pictures/' . $branchName. '/images/' . $rowPic['image'] . '" class="img-fluid mt-2" width="150px" style="margin-right: 5px;">';
                                                             echo '<span class="delete-overlay" data-image-id="' . $rowPic['id'] . '">X</span>';
                                                             echo '</div>';
                                                         }
@@ -189,6 +196,11 @@
         $('#formData').on('submit', function (e) {
             e.preventDefault();
 
+            <?php
+                $redirectURL = isset($_GET['page']) ? './?page=' . $_GET['page'] : './';
+            ?>
+            var redirectURL = '<?php echo $redirectURL; ?>';
+
             const selectedCategory = $("#category option:selected");
             const selectedStatus = $("#status option:selected");
             const dataTypeCategory = selectedCategory.data("category");
@@ -213,7 +225,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     })/* ; */.then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 },
                 error: function (xhr, status, error) {
@@ -223,7 +235,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     })/* ; */.then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 }
             });

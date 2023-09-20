@@ -13,7 +13,7 @@
                         <a class="nav-link" href="./">หน้าหลัก</a>
                     </li>
                     <li class="nav-item px-3 px-md-0" v-if="auth.data">
-                        <a class="nav-link" href="3d_exhibtions">นิทรรศการเสมือนจริง</a>
+                        <a class="nav-link" href="virtualexhibitions">นิทรรศการเสมือนจริง</a>
                     </li>
                     <li class="nav-item px-3 px-md-0" v-if="auth.data">
                         <a class="nav-link" href="branch_workshop">ผลงานของสาขา</a>

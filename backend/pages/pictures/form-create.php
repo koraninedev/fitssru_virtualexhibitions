@@ -35,6 +35,13 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
+<?php 
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $_SESSION['AD_BRANCH_NAME'];
+    }                                        
+?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -47,9 +54,9 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-images"></i> 
-                                    เพิ่มข้อมูลบทความ
+                                    เพิ่มข้อมูลบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
-                                <a href="./" class="btn btn-info mt-3">
+                                <a href="./<?php echo isset($_GET['page']) ? '?page=' . $_GET['page'] : ''; ?>" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
                                     กลับหน้าหลัก
                                 </a>
@@ -57,7 +64,7 @@
                             <form id="formData" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="form-row">
-                                        <input name="branch_name" value="<?php echo $_SESSION['AD_BRANCH_NAME'] ?>" style="display: none;">
+                                        <input name="branch_name" value="<?php echo $branchName ?>" style="display: none;">
                                         <div class="form-group col-md-4">
                                             <label for="cat_name">ประเภทบทความ</label>
                                             <select class="custom-select mb-3" disabled  id="category">
@@ -136,6 +143,11 @@
         $('#formData').on('submit', function (e) {
             e.preventDefault();
 
+            <?php
+                $redirectURL = isset($_GET['page']) ? './?page=' . $_GET['page'] : './';
+            ?>
+            var redirectURL = '<?php echo $redirectURL; ?>';
+
             const selectedCategory = $("#category option:selected");
             const selectedStatus = $("#status option:selected");
             const dataTypeCategory = selectedCategory.data("category");
@@ -158,7 +170,7 @@
                         icon: 'success',
                         confirmButtonText: 'ตกลง',
                     }).then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 },
                 error: function (xhr, status, error) {

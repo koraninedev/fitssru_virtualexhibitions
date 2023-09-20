@@ -59,6 +59,13 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
+<?php 
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $row['branch_name'];
+    }                                        
+?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -71,9 +78,9 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-video"></i> 
-                                    แก้ไขบทความ
+                                    แก้ไขบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
-                                <a href="./" class="btn btn-info mt-3">
+                                <a href="./<?php echo isset($_GET['page']) ? '?page=' . $_GET['page'] : ''; ?>" class="btn btn-info mt-3">
                                     <i class="fas fa-list"></i>
                                     กลับหน้าหลัก
                                 </a>
@@ -107,7 +114,7 @@
                                             <div class="image-preview mt-2" id="thumbnail-preview" style="display: none; position: relative;"></div>
                                             <?php
                                                 if (!empty($row['image'])) {
-                                                    echo '<img src="../../../assets/videos/' . $_SESSION['AD_BRANCH_NAME'] . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
+                                                    echo '<img src="../../../assets/videos/' . $branchName . '/thumbnails/' . $row['image'] . '" class="img-fluid mt-2" width="150px">';
                                                 }
                                             ?>
                                         </div>
@@ -122,7 +129,7 @@
                                                 if (!empty($rowVids)) {
                                                     foreach ($rowVids as $rowVid) {
                                                         echo '<div class="video-with-delete" style="position: relative; display: inline-block;">';
-                                                        echo '<video controls src="../../../assets/videos/' . $_SESSION['AD_BRANCH_NAME'] . '/videos/' . $rowVid['video'] . '" class="video-fluid mt-2" width="100%" style="margin-right: 5px;"></video>';
+                                                        echo '<video controls src="../../../assets/videos/' . $branchName . '/videos/' . $rowVid['video'] . '" class="video-fluid mt-2" width="100%" style="margin-right: 5px;"></video>';
                                                         echo '<input type="hidden" name="name_video" value="' . $rowVid['video'] . '">';
                                                         echo '<span class="delete-overlay" data-video-id="' . $rowVid['id'] . '" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; color: white; font-weight: bold; padding: 5px; cursor: pointer; z-index: 1;">X</span>';
                                                         echo '</div>';
@@ -182,6 +189,11 @@
         $('#formData').on('submit', function (e) {
             e.preventDefault();
 
+            <?php
+                $redirectURL = isset($_GET['page']) ? './?page=' . $_GET['page'] : './';
+            ?>
+            var redirectURL = '<?php echo $redirectURL; ?>';
+
             const selectedCategory = $("#category option:selected");
             const selectedStatus = $("#status option:selected");
             const dataTypeCategory = selectedCategory.data("category");
@@ -207,7 +219,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     })/* ; */.then((result) => {
-                        location.assign('./');
+                        location.assign(redirectURL);
                     });
                 },
                 error: function (xhr, status, error) {
@@ -216,9 +228,9 @@
                         title: 'อัพเดทข้อมูลล้มเหลวกรุณาลองใหม่',
                         showConfirmButton: false,
                         timer: 1500
-                    });/* .then((result) => {
-                        location.assign('./');
-                    }); */
+                    })/* ; */.then((result) => {
+                        location.assign(redirectURL);
+                    });
                 }
             });
         });

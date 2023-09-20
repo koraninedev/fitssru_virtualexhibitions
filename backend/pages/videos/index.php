@@ -28,6 +28,13 @@
   <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
+<?php
+    if (isset($_GET['page'])) {
+        $branchName = $_GET['page'];
+    } else {
+        $branchName = $_SESSION['AD_BRANCH_NAME'];
+    }
+?>
 <div class="wrapper">
     <?php include_once('../includes/sidebar.php') ?>
     <div class="content-wrapper pt-3">
@@ -40,12 +47,23 @@
                             <div class="card-header border-0 pt-4">
                                 <h4> 
                                     <i class="fas fa-video"></i> 
-                                    รายการบทความ
+                                    รายการบทความ <?php if($_SESSION['AD_BRANCH_NAME'] == "superadmin") echo "(" . strtoupper($branchName) . ")" ?>
                                 </h4>
+                                <?php if(isset($_GET['page'])){ ?>
+                                    <a href="form-create.php?page=<?php echo $branchName; ?>" class="btn btn-primary mt-3">
+                                        <i class="fas fa-plus"></i>
+                                        เพิ่มข้อมูล
+                                    </a>
+                                    <a href="../<?php echo $_GET['page']?>" class="btn btn-info mt-3">
+                                        <i class="fas fa-list"></i>
+                                        กลับหน้าหลัก
+                                    </a>
+                                <?php } else { ?>
                                 <a href="form-create.php" class="btn btn-primary mt-3">
                                     <i class="fas fa-plus"></i>
                                     เพิ่มข้อมูล
                                 </a>
+                                <?php } ?>
                             </div>
                             <div class="card-body">
                                 <table  id="logs" 
@@ -106,9 +124,15 @@
                             ${item.blog_status ? 'checked': ''} data-toggle="toggle" data-on="เผยแพร่" 
                             data-off="ปิด" data-onstyle="success" data-style="ios">`,
                     `<div class="btn-group" role="group">
-                        <a href="form-edit.php?id=${item.blog_id}" type="button" class="btn btn-warning">
-                            <i class="far fa-edit"></i> แก้ไข
-                        </a>
+                        <?php if (isset($_GET['page'])) { ?>
+                            <a href="form-edit.php?page=${branchName}&id=${item.blog_id}" type="button" class="btn btn-warning">
+                                <i class="far fa-edit"></i> แก้ไข
+                            </a>
+                        <?php } else { ?>
+                            <a href="form-edit.php?id=${item.blog_id}" type="button" class="btn btn-warning">
+                                <i class="far fa-edit"></i> แก้ไข
+                            </a>
+                        <?php } ?>
                         <button type="button" class="btn btn-danger" id="delete" data-id="${item.blog_id}">
                             <i class="far fa-trash-alt"></i> ลบ
                         </button>
