@@ -6,7 +6,7 @@ new Vue({
         'treed-component': httpVueLoader('./components/3dmodel.vue'),
         'pic-component': httpVueLoader('./components/picture.vue'),
         'video-component': httpVueLoader('./components/video.vue'),
-        'contact-component': httpVueLoader('./components/contact.vue'),
+        'aboutus-component': httpVueLoader('./components/aboutus.vue'),
         'footer-component': httpVueLoader('./components/footer.vue'),
         'branch-component': httpVueLoader('./components/branch.vue')
     },

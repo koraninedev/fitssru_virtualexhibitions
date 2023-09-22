@@ -88,6 +88,31 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v10.0&appId=1264860467204492&autoLogAppEvents=1" nonce="IU4EXUOc"></script>
 </head>
 <body>
+    <?php 
+        $branchName;
+        if ($blogs[0]['branch_name'] == "cessru") {
+            $branchName = "วิศวกรรมคอมพิวเตอร์";
+        } else if ($blogs[0]['branch_name'] == "rbessru") {
+            $branchName = "วิศวกรรมหุ่นยนต์";
+        } else if ($blogs[0]['branch_name'] == "messru") {
+            $branchName = "การจัดการวิศวกรรม";
+        } else if ($blogs[0]['branch_name'] == "stohssru") {
+            $branchName = "เทคโนโลยีความปลอดภัย";
+        } else if ($blogs[0]['branch_name'] == "ietssru") {
+            $branchName = "เทคโนโลยีไฟฟ้า";
+        } else if ($blogs[0]['branch_name'] == "real-fmssru") {
+            $branchName = "การจัดการอสังหาริมทรัพย์และทรัพยากรอาคาร";
+        } else if ($blogs[0]['branch_name'] == "gmdssru") {
+            $branchName = "การออกแบบกราฟิกและมัลติมีเดีย";
+        } else if ($blogs[0]['branch_name'] == "iedssru") {
+            $branchName = "การออกแบบนิทรรศการและแอนิเมชันสามมิติ";
+        } else if ($blogs[0]['branch_name'] == "idssru") {
+            $branchName = "การออกแบบผลิตภัณฑ์และบรรจุภัณฑ์";
+        } else if ($blogs[0]['branch_name'] == "printingssru") {
+            $branchName = "อุตสาหกรรมศิลป์และวิทยาศาสตร์";
+        }
+    
+    ?>
     <div id="app">
         <navbar-component :auth="auth" style="z-index: 2;"></navbar-component>
         <header class="page-header d-flex align-items-center position-relative" >
@@ -118,8 +143,8 @@
                                 </ol>
                             </nav>
                             <p class="text-black-50 small">
-                                <img src="assets/images/korntap.png" width="35px" class="rounded-circle" alt="Admin">
-                                <span class="me-2 text-danger"> Nine Korntap </span>
+                                <img src="backend/assets/images/<?php echo $blogs[0]['branch_name'] ?>.png" width="35px" class="rounded-circle" alt="Admin">
+                                <span class="me-2 text-danger"> <?php echo $branchName ?> </span>
                                 <span class="me-2" :title="new Date(blog.updated_at).toLocaleString('th-TH', {timeZone: 'Asia/Bangkok'})" data-bs-toggle="tooltip" data-bs-placement="top"> 
                                     วันที่ {{ new Date(blog.updated_at).toLocaleString('th-TH', {timeZone: 'Asia/Bangkok'}).slice(0, 9) }} ({{ timeago.format(blog.updated_at, 'th') }}) 
                                 </span>
