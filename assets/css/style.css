@@ -142,6 +142,10 @@ font-weight: 600;
         color:#000 !important;
         border-bottom: 1px solid #989898;
     }
+    .ul-profile{
+        width: 100%;
+        margin-bottom: 5px;
+    }
     .welcome-mb {
         text-align: center;
     }
