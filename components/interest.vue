@@ -8,7 +8,7 @@
             <img :src="currentUrl.includes('pic') ? `assets/pictures/${blog.branch_name}/thumbnails/${blog.image}`
                         : currentUrl.includes('3d') ? `assets/3dmodels/${blog.branch_name}/thumbnails/${blog.image}`
                         : currentUrl.includes('video') ? `assets/videos/${blog.branch_name}/thumbnails/${blog.image}`
-                        : `./`" class="card-img-top" alt="${blog.image}">
+                        : `./`" class="card-img-top" alt="${blog.image}" style="height: 300px; width: 100%; object-fit: cover;">
         </a>
         <div class="card-body d-flex flex-column">
             <p class="card-title fw-bold lh-base">{{ blog.subject}}</p>

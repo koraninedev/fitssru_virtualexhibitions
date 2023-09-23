@@ -152,6 +152,9 @@
 
                             <?php if (strpos($_SERVER['REQUEST_URI'], "3d") !== false) { ?>
                                 <div style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                                <div id="loadingPlaceholder">
+                                    <p>กำลังโหลดโมเดลกรุณารอสักครู่...</p>
+                                </div>
                                     <model-obj src="assets/3dmodels/<?php echo $blogs[0]['branch_name'] ?>/3dmodels/<?php echo $models[0]['model'] ?>"></model-obj>
                                 </div>
                             <?php } ?>
@@ -277,6 +280,26 @@
     <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <script>
         var blogBranchName = "<?php echo $blogs[0]['branch_name']; ?>";
+
+        // สร้างตัวแปรเพื่อเก็บข้อมูลการโหลดโมเดล
+        var modelLoaded = false;
+
+        // เมื่อโมเดลโหลดเสร็จ
+        function onModelLoad() {
+            // ซ่อนข้อความ "กำลังโหลดอยู่" และแสดงโมเดล
+            document.getElementById('loadingPlaceholder').style.display = 'none';
+            modelLoaded = true;
+        }
+
+        // เช็คสถานะโมเดลและเรียกใช้ onModelLoad เมื่อโมเดลโหลดเสร็จ
+        var modelElement = document.querySelector('model-obj');
+        console.log(modelElement);
+        modelElement.addEventListener('model-loaded', onModelLoad);
+
+        // ตรวจสอบสถานะโมเดลทันทีหลังหน้า
+        if (modelElement.hasAttribute('model-loaded')) {
+            onModelLoad();
+        }
     </script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/blog-detail.js"></script>
