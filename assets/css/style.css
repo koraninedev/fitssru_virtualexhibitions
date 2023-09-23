@@ -129,16 +129,18 @@ font-weight: 600;
 
 .ul-navbar{
     float: right;
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 @media (max-width: 767px) {
     .ul-navbar{
         background:#f8f9fa;
+        width: 100%;
     }
     .ul-navbar a{
-        text-align: right;
+        text-align: center;
         color:#000 !important;
+        border-bottom: 1px solid #989898;
     }
     .welcome-mb {
         text-align: center;
