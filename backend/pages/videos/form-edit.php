@@ -206,6 +206,14 @@
             formData.append('category', dataTypeCategory);
             formData.append('status', dataTypeStatus);
 
+            var loadingPopup = Swal.fire({
+                title: 'กำลังดำเนินการ...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
+
             $.ajax({
                 type: 'POST',
                 url: '../../service/videos/update.php',
@@ -213,6 +221,7 @@
                 processData: false,
                 contentType: false,
                 success: function (resp) {
+                    loadingPopup.close();
                     Swal.fire({
                         icon: 'success',
                         title: 'อัพเดทข้อมูลเรียบร้อยแล้ว',
