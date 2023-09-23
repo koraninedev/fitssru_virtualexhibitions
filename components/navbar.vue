@@ -28,7 +28,7 @@
                         <a class="nav-link" href="login">เข้าสู่ระบบ</a>
                     </li>
                     
-                    <li class="nav-item dropdown ms-auto text-end px-3 px-0" v-if="auth.data">
+                    <li class="nav-item dropdown ms-auto text-end px-3 px-0 ul-profile" v-if="auth.data">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
                         data-bs-toggle="dropdown" aria-expanded="false">
                             <img class="profile-img"  :src="`assets/images/uploads/${auth.data.image}`" alt="">
