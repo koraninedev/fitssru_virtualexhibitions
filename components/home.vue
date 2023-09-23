@@ -1,12 +1,12 @@
 <template>
     <section>
         <div class="row mt-5 mb-5 align-items-center">
-                <div class="col-lg-6 col-sm-12">
+                <div class="col-lg-6 col-sm-12 welcome-mb">
                     <p class="fw-bold" style="font-size: 30px; margin-bottom: 10px;">ยินดีต้อนรับเข้าสู่</p>
                     <p class="fw-bold" style="font-size: 30px; color: #CF242B;">แอปพลิเคชันนิทรรศการเสมือนจริง</p>
-                    <p style="color: #707070; text-indent: 1.5em; text-align: justify;">เว็บไซต์ของเราให้บริการสำหรับนิทรรศการเสมือนจริง และยังสามารถเลือกดูผลงานของแต่ละสาขาได้อีกด้วย
-                    ภายในคณะเทคโนโลยีอุตสาหกรรม Branch Workshop เป็นการจัดแสดงผลงานในรูปแบบเว็บบล็อก
-                    สามารถแสดงความคิดเห็นได้</p>
+                    <p style="color: #707070; text-indent: 1.5em; text-align: justify;">ทางเว็บไซต์ของเรามีหน้าที่บริการสำหรับนิทรรศการเสมือนจริง ให้บุคคลทั่วไปหรือนักศึกษาสามารถเลือกเข้าชมผลงานของแต่ละสาขาได้ โดยแต่ละสาขาจะมีผลงานที่หลากหลายให้ท่านได้เลือกเข้าชมไม่ว่าจะเป็น รูปภาพ วิดิโอ หรือ 3DModel 
+                        และภายในคณะเทคโนโลยีอุตสาหกรรม  แถบผลงานของสาขาจะเป็นการจัดแสดงผลงานในรูปแบบเว็บบล็อก 
+                        ซึ่งทุกท่านสามารถแสดงความคิดเห็นได้</p>
                 </div>
                 <div class="col-lg-6 col-sm-12">
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">

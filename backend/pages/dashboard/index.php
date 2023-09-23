@@ -134,7 +134,8 @@
 
                 <div class="small-box py-4 bg-success shadow">
                     <div class="inner">
-                        <h3 class="text-bold text-white pl-4" style="font-size: 1.75rem;">วิธีการใช้งานเบื้องต้น  :<a class="pl-3" href="#">Test.pdf</a></h3>
+                        <h3 class="text-bold text-white pl-4" style="font-size: 1.75rem;">วิธีการใช้งานเบื้องต้น  :</h3>
+                        <a class="text-bold text-dark pl-4" style="font-size: 1.5rem; text-decoration: underline;" href="#">User-Manual-V.0.1.pdf</a>
                     </div>
                     <div class="icon">
                         <i class="fas fa-book-open"></i>

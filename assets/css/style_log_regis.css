@@ -150,3 +150,14 @@ body{
         width: 550px;
     }
 }
+
+@media (max-width: 499px) {
+    .nohave, .back {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .nohave a {
+        white-space: nowrap;
+    }
+}
