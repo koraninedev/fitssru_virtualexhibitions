@@ -83,6 +83,12 @@
         .image-container:hover .overlay {
             opacity: 1;
         }
+        
+        .ratio.ratio-16x9 iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v10.0&appId=1264860467204492&autoLogAppEvents=1" nonce="IU4EXUOc"></script>
@@ -151,10 +157,10 @@
                             </p>
 
                             <?php if (strpos($_SERVER['REQUEST_URI'], "3d") !== false) { ?>
-                                <div style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
-                                <div id="loadingPlaceholder">
-                                    <p>กำลังโหลดโมเดลกรุณารอสักครู่...</p>
-                                </div>
+                                <div style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; text-align: center; padding: 20px;">
+                                    <div id="loadingPlaceholder" style="font-size: 24px;">
+                                        <p>กำลังโหลดโมเดลกรุณารอสักครู่...</p>
+                                    </div>
                                     <model-obj src="assets/3dmodels/<?php echo $blogs[0]['branch_name'] ?>/3dmodels/<?php echo $models[0]['model'] ?>"></model-obj>
                                 </div>
                             <?php } ?>
@@ -190,7 +196,7 @@
                             <?php if (strpos($_SERVER['REQUEST_URI'], "video") !== false) { ?>
 
                                 <div class="ratio ratio-16x9">
-                                    <iframe src="assets/videos/<?php echo $blogs[0]['branch_name'] ?>/videos/<?php echo $videos[0]['video'] ?>" allowfullscreen sandbox></iframe>
+                                    <iframe src="assets/videos/<?php echo $blogs[0]['branch_name'] ?>/videos/<?php echo $videos[0]['video'] ?>" allowfullscreen></iframe>
                                 </div>
 
                             <?php } ?>
@@ -281,25 +287,28 @@
     <script>
         var blogBranchName = "<?php echo $blogs[0]['branch_name']; ?>";
 
-        // สร้างตัวแปรเพื่อเก็บข้อมูลการโหลดโมเดล
-        var modelLoaded = false;
+        // รอให้หน้าเว็บโหลดเสร็จแล้วค่อยทำงาน
+        debugger;
+        window.addEventListener('load', function () {
+            // เรียกใช้ฟังก์ชันเมื่อหน้าเว็บโหลดเสร็จแล้ว
+            var modelElement = document.querySelector('canvas');
+            var loadingPlaceholder = document.getElementById('loadingPlaceholder');
 
-        // เมื่อโมเดลโหลดเสร็จ
-        function onModelLoad() {
-            // ซ่อนข้อความ "กำลังโหลดอยู่" และแสดงโมเดล
-            document.getElementById('loadingPlaceholder').style.display = 'none';
-            modelLoaded = true;
-        }
+            // ตรวจสอบสถานะการโหลดของ <canvas>
+            if (modelElement) {
+                onModelLoad();
+            } else {
+                // ถ้า <canvas> ยังไม่โหลดเสร็จ ให้รอเหตุการณ์ 'load' ของ <canvas>
+                modelElement.addEventListener('load', function () {
+                    onModelLoad();
+                });
+            }
 
-        // เช็คสถานะโมเดลและเรียกใช้ onModelLoad เมื่อโมเดลโหลดเสร็จ
-        var modelElement = document.querySelector('model-obj');
-        console.log(modelElement);
-        modelElement.addEventListener('model-loaded', onModelLoad);
-
-        // ตรวจสอบสถานะโมเดลทันทีหลังหน้า
-        if (modelElement.hasAttribute('model-loaded')) {
-            onModelLoad();
-        }
+            // ซ่อนข้อความ "กำลังโหลดอยู่" เมื่อโมเดลโหลดเสร็จ
+            function onModelLoad() {
+                loadingPlaceholder.style.display = 'none';
+            }
+        });
     </script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/blog-detail.js"></script>

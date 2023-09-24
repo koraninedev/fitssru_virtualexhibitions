@@ -47,29 +47,15 @@
             <nav class="mt-5">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <button class="nav-link active" id="nav-picture-tab" data-bs-toggle="tab" data-bs-target="#nav-photos"
-                        type="button" role="tab" aria-controls="nav-photos" aria-selected="true">Photos</button>
+                        type="button" role="tab" aria-controls="nav-photos" aria-selected="true">ผลงานรูปภาพ</button>
                     <button class="nav-link" id="nav-videos-tab" data-bs-toggle="tab" data-bs-target="#nav-videos"
-                        type="button" role="tab" aria-controls="nav-videos" aria-selected="false">Videos</button>
+                        type="button" role="tab" aria-controls="nav-videos" aria-selected="false">ผลงานวิดีโอ</button>
                     <button class="nav-link" id="nav-3dmodels-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-3dmodels" type="button" role="tab" aria-controls="nav-3dmodels"
-                        aria-selected="false">3D Models</button>
+                        aria-selected="false">ผลงานโมเดล 3D</button>
                 </div>
             </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade" id="nav-3dmodels" role="tabpanel"
-                    aria-labelledby="nav-3dmodels-tab">
-                    <div class="row py-5 g-3">
-                        <section class="col-12 pb-3 text-center" v-if="!treeds">
-                            <h3>ยังไม่มีผลงาน 3D Models ล่าสุด</h3>
-                        </section>
-                        <section class="col-12 pb-3 text-center" v-else>
-                            <h3>ผลงาน 3D Models ล่าสุด</h3>
-                        </section>
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="treed in treeds">
-                            <treed-component :key="treed.blog_id" :treed="treed"></treed-component>
-                        </div>
-                    </div>
-                </div>
+            <div class="tab-content" id="nav-tabContent">  
                 <div class="tab-pane fade show active" id="nav-photos" role="tabpanel" aria-labelledby="nav-picture-tab">
                     <div class="row py-5 g-3">
                         <section class="col-12 pb-3 text-center" v-if="!pics">
@@ -88,11 +74,25 @@
                         <section class="col-12 pb-3 text-center" v-if="!videos">
                             <h3>ยังไม่มีผลงานวิดีโอล่าสุด</h3>
                         </section>
-                        <section class="col-12 pb-3 text-center">
+                        <section class="col-12 pb-3 text-center" v-else>
                             <h3>ผลงานวิดีโอล่าสุด</h3>
                         </section>
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="video in videos">
                             <video-component :key="video.blog_id" :video="video"></video-component>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-3dmodels" role="tabpanel"
+                    aria-labelledby="nav-3dmodels-tab">
+                    <div class="row py-5 g-3">
+                        <section class="col-12 pb-3 text-center" v-if="!treeds">
+                            <h3>ยังไม่มีผลงานโมเดล 3D ล่าสุด</h3>
+                        </section>
+                        <section class="col-12 pb-3 text-center" v-else>
+                            <h3>ผลงานโมเดล 3D ล่าสุด</h3>
+                        </section>
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" v-for="treed in treeds">
+                            <treed-component :key="treed.blog_id" :treed="treed"></treed-component>
                         </div>
                     </div>
                 </div>
