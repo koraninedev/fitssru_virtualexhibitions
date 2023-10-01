@@ -158,9 +158,6 @@
 
                             <?php if (strpos($_SERVER['REQUEST_URI'], "3d") !== false) { ?>
                                 <div style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; text-align: center; padding: 20px;">
-                                    <div id="loadingPlaceholder" style="font-size: 24px;">
-                                        <p>กำลังโหลดโมเดลกรุณารอสักครู่...</p>
-                                    </div>
                                     <model-obj src="assets/3dmodels/<?php echo $blogs[0]['branch_name'] ?>/3dmodels/<?php echo $models[0]['model'] ?>"></model-obj>
                                 </div>
                             <?php } ?>
@@ -286,29 +283,6 @@
     <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <script>
         var blogBranchName = "<?php echo $blogs[0]['branch_name']; ?>";
-
-        // รอให้หน้าเว็บโหลดเสร็จแล้วค่อยทำงาน
-        debugger;
-        window.addEventListener('load', function () {
-            // เรียกใช้ฟังก์ชันเมื่อหน้าเว็บโหลดเสร็จแล้ว
-            var modelElement = document.querySelector('canvas');
-            var loadingPlaceholder = document.getElementById('loadingPlaceholder');
-
-            // ตรวจสอบสถานะการโหลดของ <canvas>
-            if (modelElement) {
-                onModelLoad();
-            } else {
-                // ถ้า <canvas> ยังไม่โหลดเสร็จ ให้รอเหตุการณ์ 'load' ของ <canvas>
-                modelElement.addEventListener('load', function () {
-                    onModelLoad();
-                });
-            }
-
-            // ซ่อนข้อความ "กำลังโหลดอยู่" เมื่อโมเดลโหลดเสร็จ
-            function onModelLoad() {
-                loadingPlaceholder.style.display = 'none';
-            }
-        });
     </script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/blog-detail.js"></script>
