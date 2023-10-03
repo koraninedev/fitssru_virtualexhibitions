@@ -87,10 +87,10 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                        <a href="../comments/" class="nav-link <?php echo isActive('comments') ?>" target="_blank">
-                            <i class="nav-icon fab fa-dropbox"></i>
-                            <p>จัดการนิทรรศการ</p>
-                        </a>
+                    <a href="../exhibitions/" class="nav-link <?php echo isActive('exhibitions') ?>" target="_blank">
+                        <i class="nav-icon fab fa-dropbox"></i>
+                        <p>จัดการนิทรรศการ</p>
+                    </a>
                 </li>
                 <li class="nav-item disabled">
                     <a class="nav-link" href="#science" data-toggle="collapse" aria-current="page">
