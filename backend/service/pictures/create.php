@@ -1,11 +1,4 @@
 <?php
-/**
- **** AppzStory Back Office Management System Template ****
- * Create Admin
- * 
- * @link https://appzstory.dev
- * @author Yothin Sapsamran (Jame AppzStory Studio)
- */
 header('Content-Type: application/json');
 require_once '../connect.php';
 
@@ -38,15 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image = imagecreatefromjpeg($_FILES['thumbnail']['tmp_name']);
     } elseif ($extension == "png") {
         $image = imagecreatefrompng($_FILES['thumbnail']['tmp_name']);
-    } elseif ($extension == "gif") {
-        $image = imagecreatefromgif($_FILES['thumbnail']['tmp_name']);
     } else {
         $response = [
             'status' => false,
-            'message' => "File Image Not Suported"
+            'message' => "รองรับเฉพาะไฟล์ภาพนามสกุล png และ jpg เท่านั้น"
         ];
         http_response_code(405);
         echo json_encode($response);
+        exit;
+    }
+
+    define('MIN_WIDTH', 640);
+    define('MIN_HEIGHT', 480);
+    define('MAX_WIDTH', 1920);
+    define('MAX_HEIGHT', 1080);
+
+    if ($width < MIN_WIDTH || $height < MIN_HEIGHT || $width > MAX_WIDTH || $height > MAX_HEIGHT) {
+        $response = [
+            'status' => false,
+            'message' => 'ขนาดของรูปภาพรองรับตั้งแต่ ' . MIN_WIDTH . 'x' . MIN_HEIGHT . ' ถึง ' . MAX_WIDTH . 'x' . MAX_HEIGHT . ' พิกเซล'
+        ];
+        http_response_code(400);  // 400 Bad Request เพราะข้อมูลที่ส่งมาไม่ถูกต้อง
+        echo json_encode($response);
+        exit;
     }
 
     imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);

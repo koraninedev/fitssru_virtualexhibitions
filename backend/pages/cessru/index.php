@@ -1,10 +1,4 @@
-<?php 
-    /**
-     * Dashboard Page
-     * 
-     * @link https://appzstory.dev
-     * @author Yothin Sapsamran (Jame AppzStory Studio)
-     */
+<?php
     require_once('../authen.php');
     require_once('../../service/connect.php');
 ?>

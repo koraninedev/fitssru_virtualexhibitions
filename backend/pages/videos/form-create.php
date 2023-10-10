@@ -182,18 +182,89 @@
                 },
                 error: function (xhr, status, error) {
                     console.log('AJAX Error:', xhr, status, error);
-                    console.log(xhr.responseText);
+                    loadingPopup.close();
+
+                    if (xhr.responseText) {
+                        errorMessage = xhr.responseText;
+                    }
+
+                    Swal.fire({
+                        text: xhr.responseJSON.message,
+                        icon: 'error',
+                        confirmButtonText: 'ตกลง'
+                    });
                 },
             })
         });
 
-        $("#thumbnail").change(function() {
-            imagePreview("thumbnail");
-        });
+        $("#thumbnail").on('click', function() {
+            this.value = '';
+        }).on('change', handleFileChange);
 
         $("#videos").change(function() {
             videoPreview("videos");
         });
+
+        function handleFileChange() {
+            const inputId = $(this).attr('id');
+            const files = $(this).get(0).files;
+            
+            if (!files.length) return;
+            
+            if (!checkFileExtension(files[0].name)) {
+                Swal.fire({
+                    title: 'ไม่สามารถอัพโหลดได้ !',
+                    text: 'รองรับเฉพาะไฟล์ภาพนามสกุล png และ jpg เท่านั้น',
+                    icon: 'warning',
+                    confirmButtonText: 'ตกลง'
+                });
+                resetInputFile(inputId);
+                return;
+            }
+
+            checkImageDimensions(files[0]).then(() => {
+                imagePreview(inputId);
+            }).catch(error => {
+                if (error.message === 'InvalidImageSize') {
+                    Swal.fire({
+                        title: 'ไม่สามารถอัพโหลดได้ !',
+                        text: 'ขนาดของรูปภาพรองรับตั้งแต่ 640x480 ถึง 1920x1080 พิกเซล',
+                        icon: 'warning',
+                        confirmButtonText: 'ตกลง'
+                    });
+                    resetInputFile(inputId);
+                }
+            });
+
+            $(this).off('change', handleFileChange);
+            resetInputFile(inputId);
+            $("#" + inputId).on('change', handleFileChange);
+        }
+
+        function checkFileExtension(filename) {
+            const validExtensions = ['png', 'jpg', 'jpeg'];
+            const fileExtention = filename.split('.').pop().toLowerCase();
+            return validExtensions.includes(fileExtention);
+        }
+
+        function checkImageDimensions(imageFile) {
+            return new Promise((resolve, reject) => {
+                const MIN_WIDTH = 640;
+                const MIN_HEIGHT = 480;
+                const MAX_WIDTH = 1920;
+                const MAX_HEIGHT = 1080;
+                
+                const img = new Image();
+                img.src = URL.createObjectURL(imageFile);
+                img.onload = function() {
+                    if (this.width < MIN_WIDTH || this.height < MIN_HEIGHT || this.width > MAX_WIDTH || this.height > MAX_HEIGHT) {
+                        reject(new Error('InvalidImageSize'));
+                    } else {
+                        resolve();
+                    }
+                };
+            });
+        }
 
         function imagePreview(inputId) {
             const files = $("#" + inputId)[0].files;
@@ -286,6 +357,13 @@
             label.text("เลือกวิดีโอ");
         }
 
+        function resetInputFile(inputId) {
+            const input = $("#" + inputId);
+            const newInput = input.clone();
+            newInput.on('change', handleFileChange);
+            input.replaceWith(newInput);
+        }
+
         document.getElementById('videos').addEventListener('change', function() {
             
             const videoFiles = this.files;
@@ -293,6 +371,20 @@
             
             for (let i = 0; i < videoFiles.length; i++) {
                 const video = videoFiles[i];
+                const fileExtension = video.name.split('.').pop().toLowerCase();
+                // ตรวจสอบนามสกุลไฟล์วิดีโอ
+                if (fileExtension !== 'mp4') {
+                    Swal.fire({
+                        title: 'ไม่สามารถเพิ่มวิดีโอได้',
+                        text: 'รองรับเฉพาะวิดีโอนามสกุล MP4 เท่านั้น',
+                        icon: 'error',
+                        confirmButtonText: 'ตกลง',
+                    }).then((result) => {
+                        clearPreviewAndInput(inputFieldId);
+                    });
+                    return;
+                }
+
                 const videoDuration = getVideoDuration(video);
                 videoDuration.then(result => {
                     if (result > 5 * 60) {

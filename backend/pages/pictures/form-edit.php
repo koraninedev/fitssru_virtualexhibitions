@@ -238,25 +238,93 @@
                     });
                 },
                 error: function (xhr, status, error) {
+                    console.log('AJAX Error:', xhr, status, error);
+                    loadingPopup.close();
+
+                    if (xhr.responseText) {
+                        errorMessage = xhr.responseText;
+                    }
+
                     Swal.fire({
+                        text: xhr.responseJSON.message,
                         icon: 'error',
-                        title: 'อัพเดทข้อมูลล้มเหลวกรุณาลองใหม่',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })/* ; */.then((result) => {
-                        location.assign(redirectURL);
+                        confirmButtonText: 'ตกลง'
                     });
                 }
             });
         });
 
-        $("#thumbnail").change(function() {
-            imagePreview("thumbnail");
-        });
+        function handleFileChange() {
+            const inputId = $(this).attr('id');
+            const files = $(this).get(0).files;
+            
+            if (!files.length) return;
+            
+            if (!checkFileExtension(files[0].name)) {
+                Swal.fire({
+                    title: 'ไม่สามารถอัพโหลดได้ !',
+                    text: 'รองรับเฉพาะไฟล์ภาพนามสกุล png และ jpg เท่านั้น',
+                    icon: 'warning',
+                    confirmButtonText: 'ตกลง'
+                });
+                resetInputFile(inputId);
+                return;
+            }
 
-        $("#images").change(function() {
-            imagePreview("images");
-        });
+            checkImageDimensions(files[0]).then(() => {
+                imagePreview(inputId);
+            }).catch(error => {
+                if (error.message === 'InvalidImageSize') {
+                    Swal.fire({
+                        title: 'ไม่สามารถอัพโหลดได้ !',
+                        text: 'ขนาดของรูปภาพรองรับตั้งแต่ 640x480 ถึง 1920x1080 พิกเซล',
+                        icon: 'warning',
+                        confirmButtonText: 'ตกลง'
+                    });
+                    resetInputFile(inputId);
+                }
+            });
+
+            $(this).off('change', handleFileChange);
+            resetInputFile(inputId);
+            $("#" + inputId).on('change', handleFileChange);
+        }
+
+        $("#thumbnail, #images").on('click', function() {
+            this.value = '';
+        }).on('change', handleFileChange);
+
+        function resetInputFile(inputId) {
+            const input = $("#" + inputId);
+            const newInput = input.clone();
+            newInput.on('change', handleFileChange);
+            input.replaceWith(newInput);
+        }
+
+        function checkFileExtension(filename) {
+            const validExtensions = ['png', 'jpg', 'jpeg'];
+            const fileExtention = filename.split('.').pop().toLowerCase();
+            return validExtensions.includes(fileExtention);
+        }
+
+        function checkImageDimensions(imageFile) {
+            return new Promise((resolve, reject) => {
+                const MIN_WIDTH = 640;
+                const MIN_HEIGHT = 480;
+                const MAX_WIDTH = 1920;
+                const MAX_HEIGHT = 1080;
+                
+                const img = new Image();
+                img.src = URL.createObjectURL(imageFile);
+                img.onload = function() {
+                    if (this.width < MIN_WIDTH || this.height < MIN_HEIGHT || this.width > MAX_WIDTH || this.height > MAX_HEIGHT) {
+                        reject(new Error('InvalidImageSize'));
+                    } else {
+                        resolve();
+                    }
+                };
+            });
+        }
 
         function imagePreview(inputId) {
             const files = $("#" + inputId)[0].files;
