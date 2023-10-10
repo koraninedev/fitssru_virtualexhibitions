@@ -1,12 +1,37 @@
 <?php 
-    /**
-     * Dashboard Page
-     * 
-     * @link https://appzstory.dev
-     * @author Yothin Sapsamran (Jame AppzStory Studio)
-     */
     require_once('../authen.php'); 
     require_once('../../service/connect.php');
+
+    function getFolderSize($dir) {
+        $size = 0;
+        $files = scandir($dir);
+        foreach ($files as $file) {
+            if ($file == '.' || $file == '..') continue;
+            $path = $dir . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($path)) {
+                $size += getFolderSize($path);
+            } else {
+                $size += filesize($path);
+            }
+        }
+        return $size;
+    }
+
+    // กำหนด path ของโฟลเดอร์ที่คุณต้องการคำนวณขนาด
+    if ($_SESSION['AD_BRANCH_NAME'] != "superadmin") {
+        $folderPathpictures = "../../../assets/pictures/" . $_SESSION['AD_BRANCH_NAME'];
+        $folderPathvideos = "../../../assets/videos/" . $_SESSION['AD_BRANCH_NAME'];
+        $folderPath3dmodels = "../../../assets/3dmodels/" . $_SESSION['AD_BRANCH_NAME'];
+        $folderSizepictures = getFolderSize($folderPathpictures);
+        $folderSizevideos = getFolderSize($folderPathvideos);
+        $folderSize3dmodels = getFolderSize($folderPath3dmodels);
+
+        // รวมขนาดทั้งหมด
+        $totalSize = $folderSizepictures + $folderSizevideos + $folderSize3dmodels;
+
+        // แปลงเป็น MB
+        $totalSizeInMB = round($totalSize / (1024 * 1024), 2);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,6 +164,18 @@
                     </div>
                     <div class="icon">
                         <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-12">
+                    <div class="small-box bg-secondary shadow">
+                        <div class="inner text-center">
+                            <h3><?php echo $totalSizeInMB; ?> MB</h3>
+                            <p class="text-light">พื้นที่เก็บผลงานที่ใช้ไปตอนนี้</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
                     </div>
                 </div>
 
