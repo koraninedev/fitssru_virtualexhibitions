@@ -46,7 +46,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li>
+                            <li class="nav-item px-3 px-md-0 ms-auto">
                                 <a class="dropdown-item" @click="logout()">
                                     <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                                 </a>
@@ -54,6 +54,11 @@
                         </ul>
                     </li>
                 </ul>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end pe-3">
+            <div class="online-users-badge">
+                <i class="fas fa-user text-white"></i> <span class="badge rounded-pill bg-success">จำนวนผู้ใช้งาน {{ onlineUsers }} / 1000</span>
             </div>
         </div>
         <div class="progressContainer">
@@ -65,8 +70,14 @@
 <script>
 module.exports = {
     props: ['auth', 'navlight'],
+    data() {
+        return {
+            onlineUsers: 0
+        };
+    },
     mounted() { 
         this.progressBar()
+        this.fetchOnlineUsers()
         let navbar = document.querySelector(".navbar")
         let navLinks = document.querySelectorAll('.nav-link')
         let windowPathname = window.location.pathname
@@ -83,6 +94,7 @@ module.exports = {
                 navLink.classList.add('active')
             }
         })
+        
     },
     computed: {
         fullname() {
@@ -139,10 +151,24 @@ module.exports = {
                     navbar.classList.add("navbar-dark")
                 }
             })
+        },
+        async fetchOnlineUsers() {
+            // สมมติว่าเรามี API ที่สามารถเรียกดูจำนวนผู้ใช้งานออนไลน์ได้
+            let response = await axios.get('/user/all');
+            this.onlineUsers = response.data.response.response.length;
         }
     }
 }
 </script>
 
 <style scoped>
+.online-users-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge {
+    padding: .5em .7em;
+}
 </style>
