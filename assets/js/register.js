@@ -103,15 +103,25 @@ new Vue({
                         location.assign("login");
                     })
                 }).catch((error) => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'สมัครสมาชิกไม่สำเร็จ !',
-                        text: "การกรอกข้อมูลมีความผิดพลาด โปรดกรอกใหม่อีกครั้ง",
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    }).then(() => {
-                        location.reload();
-                    })
+                    if (error.response && error.response.status === 429) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'สมัครสมาชิกไม่สำเร็จ !',
+                            text: "ขณะนี้มีผู้ใช้งานเกินจำนวนแล้ว ไว้กลับมาใหม่อีกครั้งนะ ขอบพระคุณ",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'สมัครสมาชิกไม่สำเร็จ !',
+                            text: "การกรอกข้อมูลมีความผิดพลาด โปรดกรอกใหม่อีกครั้ง",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                            location.reload();
+                        })
+                    } 
                 })
             } else {
                 Swal.fire('คำเตือน !', "โปรดกรอกข้อมูลให้ถูกต้องครบถ้วน", 'warning')
