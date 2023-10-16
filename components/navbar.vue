@@ -171,4 +171,10 @@ module.exports = {
 .badge {
     padding: .5em .7em;
 }
+
+@media (max-width: 990px) {
+    .online-users-badge {
+        display: none !important;
+    }
+}
 </style>
