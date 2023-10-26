@@ -71,10 +71,11 @@ new Vue({
             password: {
                 required,
                 minLength: minLength(6),
-                containsLetterAndNumber(value) {
-                    const containsLetter = /[a-zA-Z]/.test(value);
-                    const containsNumber = /\d/.test(value);
-                    return containsLetter && containsNumber;
+                containsLetter(value) {
+                    return /[A-Za-z]/.test(value);
+                },
+                isAlphanumeric(value) {
+                    return /^[A-Za-z0-9]+$/.test(value);
                 }
             },
             repeatPassword: {
@@ -124,7 +125,15 @@ new Vue({
                     } 
                 })
             } else {
-                Swal.fire('คำเตือน !', "โปรดกรอกข้อมูลให้ถูกต้องครบถ้วน", 'warning')
+                if (!this.$v.auth.password.required) {
+                    Swal.fire('คำเตือน !', "กรุณากรอกรหัสผ่าน", 'warning');
+                } else if (!this.$v.auth.password.minLength) {
+                    Swal.fire('คำเตือน !', `รหัสผ่านต้องมีอย่างน้อย ${this.$v.auth.password.$params.minLength.min} ตัวอักษร`, 'warning');
+                } else if (!this.$v.auth.password.containsLetter) {
+                    Swal.fire('คำเตือน !', "รหัสผ่านต้องมีตัวอักษรอย่างน้อย 1 ตัว", 'warning');
+                } else if (!this.$v.auth.password.isAlphanumeric) {
+                    Swal.fire('คำเตือน !', "รหัสผ่านห้ามมีอักขระพิเศษ", 'warning');
+                }
             }
         }
     }

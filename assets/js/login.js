@@ -4,7 +4,6 @@ new Vue({
     el: '#login',
     data() {
         return {
-            /* text: 'Login Kitchen Enjoy', */
             email: null,
             password: null
         }
